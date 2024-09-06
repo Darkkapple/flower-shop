@@ -1,22 +1,38 @@
-<style>
-    img{
-        max-width:300px;
-        max-height:300px;
-    }
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}"/>
 
-    .product{
-        display:flex;
+<div class="heading">
+     <div class="logo">
+           <h1><span >Flower</span><span style="color: white ;margin-left:4px;border: 3.5px blue solid; border-radius:15px;background-color: blue">Shop</span></h1>
+           <h1>{{ title }}</h1>
 
-    }
+     </div>
 
-</style>
-<h1 style="font-family:Arial">Flowershop</h1>
-<h2>Здесь скоро будет полноценный цветочный магазин,а пока...</h2>
-<a href="/">Главная </a>
-<a href="/products">Товары </a>
-<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>Не рикролл </a>
-<div class="product">
-    <img src="https://i.ibb.co/1bynJGD/2024-06-23-13-27-49.png">
-    <h2>Фикус кучерявый</h2>
-    <h2>Описание</h2>
+     <div class="navigation">
+         <h2>
+             <a class="navlink" href="/">Главная</a>
+             <a class="navlink" href="/products">Товары</a>
+             <a class="navlink" href="/discounts">Акции</a>
+         </h2>
+     </div>
+</div>
+
+<div class="productlist">
+    {% for product in products %}
+
+    <div class="product">
+            <img class="productPreview" src="{{ product.image_url }}">
+                  <div>
+                     <a href="/product/{{ product.id }}">
+                         <h2 class="textname">{{ product.name }}</h2>
+                     <a/>
+                     <h3> {{ product.description }}<h3>
+                     <h2 class="prise">Цена: {{product.price}} ₽</h2>
+                  </div>
+            <a href="/payment/{{ product.id }}">
+                  <button class="button">Купить</button>
+            </a>
+    </div>
+
+    {% endfor %}
 </div>
