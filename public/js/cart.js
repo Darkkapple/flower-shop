@@ -13,12 +13,12 @@ class CartManager {
     init() {
         if (this.isInitialized) return;
 
-        console.log('🛒 Менеджер корзины инициализируется...');
+        console.log('🛒 Cart Manager initializing...');
         this.loadCart();
         this.bindCartEvents();
-
+        
         this.isInitialized = true;
-        console.log('🛒 Менеджер корзины успешно инициализирован');
+        console.log('🛒 Cart Manager initialized successfully');
     }
 
     bindCartEvents() {
@@ -66,8 +66,8 @@ class CartManager {
 
     addToCart(productData, quantity = 1) {
         if (!productData.id || !productData.name || !productData.price) {
-            console.error('Неверные данные товара:', productData);
-            this.showNotification('Ошибка добавления товара в корзину', 'error');
+            console.error('Invalid product data:', productData);
+            this.showNotification('Error adding product to cart', 'error');
             return false;
         }
 
@@ -78,9 +78,10 @@ class CartManager {
             quantity: quantity,
             image: productData.image || '/images/placeholder.jpg'
         };
-         // Check if product already in cart
-        const existingItemIndex = this.items.findIndex(item => item.id === product.id);
 
+        // Check if product already in cart
+        const existingItemIndex = this.items.findIndex(item => item.id === product.id);
+        
         if (existingItemIndex > -1) {
             // Update quantity
             this.items[existingItemIndex].quantity += quantity;
@@ -91,7 +92,7 @@ class CartManager {
 
         this.saveCart();
         this.updateCartUI();
-        this.showNotification(`${product.name} добавлен в корзину!`, 'success');
+        this.showNotification(`Added ${product.name} to cart!`, 'success');
 
         return true;
     }
@@ -99,19 +100,19 @@ class CartManager {
     updateQuantity(button) {
         const itemId = parseInt(button.dataset.itemId);
         const change = parseInt(button.dataset.change);
-
+        
         const item = this.items.find(item => item.id === itemId);
         if (!item) return;
 
         const newQuantity = item.quantity + change;
-
+        
         if (newQuantity < 1) {
-            this.showNotification('Количество не может быть меньше 1', 'warning');
+            this.showNotification('Quantity cannot be less than 1', 'warning');
             return;
         }
 
         if (newQuantity > 50) {
-            this.showNotification('Максимальное количество - 50', 'warning');
+            this.showNotification('Maximum quantity is 50', 'warning');
             return;
         }
 
@@ -125,13 +126,13 @@ class CartManager {
         const newQuantity = parseInt(input.value);
 
         if (newQuantity < 1) {
-            this.showNotification('Количество не может быть меньше 1', 'warning');
+            this.showNotification('Quantity cannot be less than 1', 'warning');
             input.value = 1;
             return;
         }
 
         if (newQuantity > 50) {
-            this.showNotification('Максимальное количество - 50', 'warning');
+            this.showNotification('Maximum quantity is 50', 'warning');
             input.value = 50;
             return;
         }
@@ -144,59 +145,59 @@ class CartManager {
         }
     }
 
-     removeItem(button) {
+    removeItem(button) {
         const itemId = parseInt(button.dataset.itemId);
         const item = this.items.find(item => item.id === itemId);
-
+        
         if (!item) return;
 
-        if (!confirm(`Вы уверены, что хотите удалить "${item.name}" из корзины?`)) {
+        if (!confirm(`Are you sure you want to remove "${item.name}" from your cart?`)) {
             return;
         }
 
         this.items = this.items.filter(item => item.id !== itemId);
         this.saveCart();
         this.updateCartUI();
-        this.showNotification('Товар удален из корзины', 'success');
+        this.showNotification('Item removed from cart', 'success');
     }
 
-     clearCart() {
+    clearCart() {
         if (this.items.length === 0) {
-            this.showNotification('Ваша корзина уже пуста', 'info');
+            this.showNotification('Your cart is already empty', 'info');
             return;
         }
 
-        if (!confirm('Вы уверены, что хотите очистить всю корзину?')) {
+        if (!confirm('Are you sure you want to clear your entire cart?')) {
             return;
         }
 
         this.items = [];
         this.saveCart();
         this.updateCartUI();
-        this.showNotification('Корзина очищена успешно', 'success');
+        this.showNotification('Cart cleared successfully', 'success');
     }
 
     checkout() {
         if (this.items.length === 0) {
-            this.showNotification('Ваша корзина пуста', 'warning');
+            this.showNotification('Your cart is empty', 'warning');
             return;
         }
 
         // Check if user is authenticated
         if (!window.authManager || !window.authManager.isAuthenticated()) {
-            this.showNotification('Пожалуйста, войдите, чтобы продолжить оформление заказа', 'warning');
+            this.showNotification('Please login to proceed with checkout', 'warning');
             setTimeout(() => {
                 window.location.href = '/login?returnUrl=/cart';
             }, 1500);
             return;
         }
 
-       // Simulate checkout process
-        this.showNotification('Переход к оформлению заказа...', 'info');
-
+        // Simulate checkout process
+        this.showNotification('Proceeding to checkout...', 'info');
+        
         // In a real app, you would redirect to checkout page
         setTimeout(() => {
-            this.showNotification('Функция оформления заказа скоро будет доступна!', 'success');
+            this.showNotification('Checkout functionality coming soon!', 'success');
         }, 2000);
     }
 
@@ -242,7 +243,7 @@ class CartManager {
 
         // Update cart items
         this.renderCartItems(cartItemsContainer);
-
+        
         // Update cart summary
         this.updateCartSummary();
     }
@@ -257,7 +258,7 @@ class CartManager {
                 </div>
                 <div class="item-details">
                     <h3 class="item-name">${this.escapeHtml(item.name)}</h3>
-                    <p class="item-price">${item.price.toFixed(2)} ₽ за шт.</p>
+                    <p class="item-price">$${item.price.toFixed(2)} each</p>
                 </div>
                 <div class="item-controls">
                     <div class="quantity-controls">
@@ -266,9 +267,9 @@ class CartManager {
                         <button class="btn btn-outline update-quantity" data-item-id="${item.id}" data-change="1">+</button>
                     </div>
                     <div class="item-total">
-                        ${(item.price * item.quantity).toFixed(2)} ₽
+                        $${(item.price * item.quantity).toFixed(2)}
                     </div>
-                    <button class="btn btn-danger remove-item" data-item-id="${item.id}">Удалить</button>
+                    <button class="btn btn-danger remove-item" data-item-id="${item.id}">Remove</button>
                 </div>
             </div>
         `).join('');
@@ -286,16 +287,15 @@ class CartManager {
         if (!subtotalElement || !totalElement) return;
 
         const subtotal = this.getSubtotal();
-        const deliveryFee = subtotal > 5000 ? 0 : 500; // Бесплатная доставка от 5000 ₽
-        const tax = subtotal * 0.20; // 20% налог
+        const deliveryFee = subtotal > 50 ? 0 : 9.99; // Free delivery over $50
+        const tax = subtotal * 0.08; // 8% tax
         const total = subtotal + deliveryFee + tax;
 
-        if (subtotalElement) subtotalElement.textContent = `${subtotal.toFixed(2)} ₽`;
-        if (deliveryFeeElement) deliveryFeeElement.textContent = deliveryFee === 0 ? 'БЕСПЛАТНО' : `${deliveryFee.toFixed(2)} ₽`;
-        if (taxElement) taxElement.textContent = `${tax.toFixed(2)} ₽`;
-        if (totalElement) totalElement.textContent = `${total.toFixed(2)} ₽`;
+        if (subtotalElement) subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+        if (deliveryFeeElement) deliveryFeeElement.textContent = deliveryFee === 0 ? 'FREE' : `$${deliveryFee.toFixed(2)}`;
+        if (taxElement) taxElement.textContent = `$${tax.toFixed(2)}`;
+        if (totalElement) totalElement.textContent = `$${total.toFixed(2)}`;
     }
-}
 
     ensureCartStyles() {
         if (document.querySelector('#cart-styles')) return;
@@ -314,13 +314,13 @@ class CartManager {
                 margin-bottom: 1rem;
                 align-items: center;
             }
-
+            
             .quantity-controls {
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
             }
-
+            
             .item-quantity {
                 width: 60px;
                 text-align: center;
@@ -328,19 +328,19 @@ class CartManager {
                 border: 1px solid var(--border-color);
                 border-radius: 4px;
             }
-
+            
             .item-total {
                 font-size: 1.2rem;
                 font-weight: bold;
                 color: var(--accent-color);
             }
-
+            
             @media (max-width: 768px) {
                 .cart-item {
                     grid-template-columns: 1fr;
                     text-align: center;
                 }
-
+                
                 .item-controls {
                     display: flex;
                     flex-direction: column;
