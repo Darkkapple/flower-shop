@@ -1,11 +1,11 @@
 /**
- * Authentication Manager for Flower Shop
- * Handles user authentication, registration, and session management
+ * Cart Manager for Flower Shop
+ * Handles shopping cart functionality
  */
 
-class AuthManager {
+class CartManager {
     constructor() {
-        this.currentUser = null;
+        this.items = [];
         this.isInitialized = false;
         this.init();
     }
@@ -13,449 +13,206 @@ class AuthManager {
     init() {
         if (this.isInitialized) return;
 
-        console.log('🔐 Auth Manager initializing...');
-        this.bindAuthEvents();
-        this.checkAuthStatus();
-        this.setupFormValidation();
-        
+        console.log('🛒 Менеджер корзины инициализируется...');
+        this.loadCart();
+        this.bindCartEvents();
+
         this.isInitialized = true;
-        console.log('🔐 Auth Manager initialized successfully');
+        console.log('🛒 Менеджер корзины успешно инициализирован');
     }
 
-    bindAuthEvents() {
-        // Login form handler
-        const loginForm = document.getElementById('login-form');
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+    // ... остальные методы класса ...
+
+    addToCart(productData, quantity = 1) {
+        if (!productData.id || !productData.name || !productData.price) {
+            console.error('Неверные данные товара:', productData);
+            this.showNotification('Ошибка добавления товара в корзину', 'error');
+            return false;
         }
 
-        // Register form handler
-        const registerForm = document.getElementById('register-form');
-        if (registerForm) {
-            registerForm.addEventListener('submit', (e) => this.handleRegister(e));
-        }
-
-        // Logout button
-        const logoutBtn = document.getElementById('logout-btn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => this.handleLogout());
-        }
-
-        // Mobile logout
-        const mobileLogoutBtn = document.querySelector('.logout-btn-mobile');
-        if (mobileLogoutBtn) {
-            mobileLogoutBtn.addEventListener('click', () => this.handleLogout());
-        }
-
-        // Password strength indicator
-        const passwordInput = document.getElementById('reg-password');
-        if (passwordInput) {
-            passwordInput.addEventListener('input', () => this.updatePasswordStrength());
-        }
-
-        // Confirm password validation
-        const confirmPasswordInput = document.getElementById('reg-confirm-password');
-        if (confirmPasswordInput) {
-            confirmPasswordInput.addEventListener('input', () => this.validatePasswordMatch());
-        }
-    }
-
-    setupFormValidation() {
-        // Real-time validation for forms
-        const forms = document.querySelectorAll('form[data-validate]');
-        forms.forEach(form => {
-            const inputs = form.querySelectorAll('input[required]');
-            inputs.forEach(input => {
-                input.addEventListener('blur', () => this.validateField(input));
-                input.addEventListener('input', () => this.clearFieldError(input));
-            });
-        });
-    }
-
-    async handleLogin(e) {
-        e.preventDefault();
-        
-        const form = e.target;
-        const formData = new FormData(form);
-        const credentials = {
-            username: formData.get('username'),
-            password: formData.get('password')
+        const product = {
+            id: parseInt(productData.id),
+            name: productData.name,
+            price: parseFloat(productData.price),
+            quantity: quantity,
+            image: productData.image || '/images/placeholder.jpg'
         };
 
-        // Validate form
-        if (!this.validateForm(form)) {
-            return;
+        // Check if product already in cart
+        const existingItemIndex = this.items.findIndex(item => item.id === product.id);
+
+        if (existingItemIndex > -1) {
+            // Update quantity
+            this.items[existingItemIndex].quantity += quantity;
+        } else {
+            // Add new item
+            this.items.push(product);
         }
 
-        const submitBtn = form.querySelector('button[type="submit"]');
-        this.setButtonLoading(submitBtn, true);
-
-        try {
-            // Simulate API call - in real app, this would be fetch('/api/auth/login')
-            console.log('Attempting login for:', credentials.username);
-            
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // Mock successful login
-            const mockUser = {
-                id: 1,
-                username: credentials.username,
-                email: `${credentials.username}@example.com`,
-                isAdmin: credentials.username === 'admin'
-            };
-
-            this.currentUser = mockUser;
-            this.saveUserToStorage(mockUser);
-            this.updateUI();
-            
-            this.showNotification('Login successful! Welcome back!', 'success');
-            
-            // Redirect to home page after short delay
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 1000);
-
-        } catch (error) {
-            console.error('Login error:', error);
-            this.showNotification('Invalid username or password. Please try again.', 'error');
-        } finally {
-            this.setButtonLoading(submitBtn, false);
-        }
-    }
-
-    async handleRegister(e) {
-        e.preventDefault();
-        
-        const form = e.target;
-        const formData = new FormData(form);
-        const userData = {
-            username: formData.get('username'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            confirmPassword: formData.get('confirmPassword')
-        };
-
-        // Validate form
-        if (!this.validateForm(form)) {
-            return;
-        }
-
-        // Check password match
-        if (userData.password !== userData.confirmPassword) {
-            this.showFieldError('reg-confirm-password', 'Passwords do not match');
-            return;
-        }
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        this.setButtonLoading(submitBtn, true);
-
-        try {
-            // Simulate API call
-            console.log('Attempting registration for:', userData.username);
-            
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            // Mock successful registration
-            this.showNotification('Registration successful! Please login.', 'success');
-            
-            // Redirect to login page after delay
-            setTimeout(() => {
-                window.location.href = '/login';
-            }, 2000);
-
-        } catch (error) {
-            console.error('Registration error:', error);
-            this.showNotification('Registration failed. Please try again.', 'error');
-        } finally {
-            this.setButtonLoading(submitBtn, false);
-        }
-    }
-
-    async handleLogout() {
-        try {
-            // Simulate API call
-            console.log('Logging out user:', this.currentUser?.username);
-            
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 500));
-            
-            this.currentUser = null;
-            this.clearUserFromStorage();
-            this.updateUI();
-            
-            this.showNotification('Logged out successfully', 'success');
-            
-            // Redirect to home page after short delay
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 500);
-
-        } catch (error) {
-            console.error('Logout error:', error);
-            this.showNotification('Logout failed', 'error');
-        }
-    }
-
-    validateForm(form) {
-        let isValid = true;
-        const inputs = form.querySelectorAll('input[required]');
-        
-        inputs.forEach(input => {
-            if (!this.validateField(input)) {
-                isValid = false;
-            }
-        });
-
-        return isValid;
-    }
-
-    validateField(input) {
-        const value = input.value.trim();
-        const fieldName = input.name || input.id;
-        
-        // Clear previous error
-        this.clearFieldError(input);
-
-        // Required field validation
-        if (!value) {
-            this.showFieldError(input, 'This field is required');
-            return false;
-        }
-
-        // Email validation
-        if (fieldName.includes('email') && !this.isValidEmail(value)) {
-            this.showFieldError(input, 'Please enter a valid email address');
-            return false;
-        }
-
-        // Username validation
-        if (fieldName.includes('username') && value.length < 3) {
-            this.showFieldError(input, 'Username must be at least 3 characters');
-            return false;
-        }
-
-        // Password validation
-        if (fieldName.includes('password') && value.length < 6) {
-            this.showFieldError(input, 'Password must be at least 6 characters');
-            return false;
-        }
+        this.saveCart();
+        this.updateCartUI();
+        this.showNotification(`${product.name} добавлен в корзину!`, 'success');
 
         return true;
     }
 
-    validatePasswordMatch() {
-        const password = document.getElementById('reg-password');
-        const confirmPassword = document.getElementById('reg-confirm-password');
-        
-        if (!password || !confirmPassword) return;
+    updateQuantity(button) {
+        const itemId = parseInt(button.dataset.itemId);
+        const change = parseInt(button.dataset.change);
 
-        if (confirmPassword.value && password.value !== confirmPassword.value) {
-            this.showFieldError(confirmPassword, 'Passwords do not match');
-        } else {
-            this.clearFieldError(confirmPassword);
+        const item = this.items.find(item => item.id === itemId);
+        if (!item) return;
+
+        const newQuantity = item.quantity + change;
+
+        if (newQuantity < 1) {
+            this.showNotification('Количество не может быть меньше 1', 'warning');
+            return;
+        }
+
+        if (newQuantity > 50) {
+            this.showNotification('Максимальное количество - 50', 'warning');
+            return;
+        }
+
+        item.quantity = newQuantity;
+        this.saveCart();
+        this.updateCartUI();
+    }
+
+    updateItemQuantity(input) {
+        const itemId = parseInt(input.dataset.itemId);
+        const newQuantity = parseInt(input.value);
+
+        if (newQuantity < 1) {
+            this.showNotification('Количество не может быть меньше 1', 'warning');
+            input.value = 1;
+            return;
+        }
+
+        if (newQuantity > 50) {
+            this.showNotification('Максимальное количество - 50', 'warning');
+            input.value = 50;
+            return;
+        }
+
+        const item = this.items.find(item => item.id === itemId);
+        if (item) {
+            item.quantity = newQuantity;
+            this.saveCart();
+            this.updateCartUI();
         }
     }
 
-    updatePasswordStrength() {
-        const passwordInput = document.getElementById('reg-password');
-        const strengthBar = document.getElementById('password-strength');
-        const strengthText = document.querySelector('.strength-text');
-        
-        if (!passwordInput || !strengthBar) return;
+    removeItem(button) {
+        const itemId = parseInt(button.dataset.itemId);
+        const item = this.items.find(item => item.id === itemId);
 
-        const password = passwordInput.value;
-        let strength = 0;
-        let text = '';
-        let className = '';
-        
-        if (password.length >= 6) strength += 1;
-        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
-        if (password.match(/\d/)) strength += 1;
-        if (password.match(/[^a-zA-Z\d]/)) strength += 1;
-        
-        switch (strength) {
-            case 0:
-                text = '';
-                className = '';
-                break;
-            case 1:
-                text = 'Weak';
-                className = 'strength-weak';
-                break;
-            case 2:
-                text = 'Medium';
-                className = 'strength-medium';
-                break;
-            case 3:
-            case 4:
-                text = 'Strong';
-                className = 'strength-strong';
-                break;
+        if (!item) return;
+
+        if (!confirm(`Вы уверены, что хотите удалить "${item.name}" из корзины?`)) {
+            return;
         }
 
-        strengthBar.className = `strength-fill ${className}`;
-        if (strengthText) {
-            strengthText.textContent = text;
+        this.items = this.items.filter(item => item.id !== itemId);
+        this.saveCart();
+        this.updateCartUI();
+        this.showNotification('Товар удален из корзины', 'success');
+    }
+
+    clearCart() {
+        if (this.items.length === 0) {
+            this.showNotification('Ваша корзина уже пуста', 'info');
+            return;
         }
-    }
 
-    showFieldError(input, message) {
-        const field = typeof input === 'string' ? document.getElementById(input) : input;
-        if (!field) return;
-
-        field.classList.add('error');
-        
-        let errorElement = field.parentNode.querySelector('.error-message');
-        if (!errorElement) {
-            errorElement = document.createElement('span');
-            errorElement.className = 'error-message';
-            field.parentNode.appendChild(errorElement);
+        if (!confirm('Вы уверены, что хотите очистить всю корзину?')) {
+            return;
         }
-        
-        errorElement.textContent = message;
+
+        this.items = [];
+        this.saveCart();
+        this.updateCartUI();
+        this.showNotification('Корзина очищена успешно', 'success');
     }
 
-    clearFieldError(input) {
-        const field = typeof input === 'string' ? document.getElementById(input) : input;
-        if (!field) return;
-
-        field.classList.remove('error');
-        
-        const errorElement = field.parentNode.querySelector('.error-message');
-        if (errorElement) {
-            errorElement.remove();
+    checkout() {
+        if (this.items.length === 0) {
+            this.showNotification('Ваша корзина пуста', 'warning');
+            return;
         }
-    }
 
-    isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    async checkAuthStatus() {
-        try {
-            // Check if user data exists in storage
-            const userData = this.getUserFromStorage();
-            if (userData) {
-                this.currentUser = userData;
-                this.updateUI();
-                console.log('User authenticated from storage:', userData.username);
-            }
-        } catch (error) {
-            console.error('Auth status check error:', error);
+        // Check if user is authenticated
+        if (!window.authManager || !window.authManager.isAuthenticated()) {
+            this.showNotification('Пожалуйста, войдите, чтобы продолжить оформление заказа', 'warning');
+            setTimeout(() => {
+                window.location.href = '/login?returnUrl=/cart';
+            }, 1500);
+            return;
         }
+
+        // Simulate checkout process
+        this.showNotification('Переход к оформлению заказа...', 'info');
+
+        // In a real app, you would redirect to checkout page
+        setTimeout(() => {
+            this.showNotification('Функция оформления заказа скоро будет доступна!', 'success');
+        }, 2000);
     }
 
-    saveUserToStorage(user) {
-        try {
-            localStorage.setItem('flowerShopUser', JSON.stringify(user));
-            localStorage.setItem('flowerShopAuth', 'true');
-        } catch (error) {
-            console.error('Error saving user to storage:', error);
-        }
+    // ... остальные методы класса ...
+
+    renderCartItems(container) {
+        container.innerHTML = this.items.map(item => `
+            <div class="cart-item" data-item-id="${item.id}">
+                <div class="item-image">
+                    <div style="width:80px;height:80px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:1.5rem;">
+                        🌸
+                    </div>
+                </div>
+                <div class="item-details">
+                    <h3 class="item-name">${this.escapeHtml(item.name)}</h3>
+                    <p class="item-price">${item.price.toFixed(2)} ₽ за шт.</p>
+                </div>
+                <div class="item-controls">
+                    <div class="quantity-controls">
+                        <button class="btn btn-outline update-quantity" data-item-id="${item.id}" data-change="-1">-</button>
+                        <input type="number" class="item-quantity" data-item-id="${item.id}" value="${item.quantity}" min="1" max="50">
+                        <button class="btn btn-outline update-quantity" data-item-id="${item.id}" data-change="1">+</button>
+                    </div>
+                    <div class="item-total">
+                        ${(item.price * item.quantity).toFixed(2)} ₽
+                    </div>
+                    <button class="btn btn-danger remove-item" data-item-id="${item.id}">Удалить</button>
+                </div>
+            </div>
+        `).join('');
+
+        // Add basic styles if not present
+        this.ensureCartStyles();
     }
 
-    getUserFromStorage() {
-        try {
-            const userData = localStorage.getItem('flowerShopUser');
-            return userData ? JSON.parse(userData) : null;
-        } catch (error) {
-            console.error('Error getting user from storage:', error);
-            return null;
-        }
-    }
+    updateCartSummary() {
+        const subtotalElement = document.getElementById('subtotal-amount');
+        const totalElement = document.getElementById('total-amount');
+        const deliveryFeeElement = document.getElementById('delivery-fee');
+        const taxElement = document.getElementById('tax-amount');
 
-    clearUserFromStorage() {
-        try {
-            localStorage.removeItem('flowerShopUser');
-            localStorage.removeItem('flowerShopAuth');
-        } catch (error) {
-            console.error('Error clearing user from storage:', error);
-        }
-    }
+        if (!subtotalElement || !totalElement) return;
 
-    updateUI() {
-        const loginBtn = document.getElementById('login-btn');
-        const userInfo = document.getElementById('user-info');
-        const usernameSpan = document.getElementById('username');
-        const adminPanelLink = document.getElementById('admin-panel-link');
-        const mobileLoginBtn = document.getElementById('mobile-login-btn');
-        const mobileUserInfo = document.getElementById('mobile-user-info');
+        const subtotal = this.getSubtotal();
+        const deliveryFee = subtotal > 5000 ? 0 : 500; // Бесплатная доставка от 5000 ₽
+        const tax = subtotal * 0.20; // 20% налог
+        const total = subtotal + deliveryFee + tax;
 
-        if (this.currentUser) {
-            // User is logged in
-            if (loginBtn) loginBtn.style.display = 'none';
-            if (userInfo) userInfo.style.display = 'flex';
-            if (usernameSpan) usernameSpan.textContent = this.currentUser.username;
-
-            // Show admin panel link for admins
-            if (adminPanelLink) {
-                adminPanelLink.style.display = this.currentUser.isAdmin ? 'block' : 'none';
-            }
-
-            // Mobile menu updates
-            if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
-            if (mobileUserInfo) mobileUserInfo.style.display = 'block';
-
-            console.log('UI updated: User logged in as', this.currentUser.username);
-        } else {
-            // User is not logged in
-            if (loginBtn) loginBtn.style.display = 'block';
-            if (userInfo) userInfo.style.display = 'none';
-
-            // Mobile menu updates
-            if (mobileLoginBtn) mobileLoginBtn.style.display = 'block';
-            if (mobileUserInfo) mobileUserInfo.style.display = 'none';
-
-            console.log('UI updated: User not logged in');
-        }
-    }
-
-    setButtonLoading(button, isLoading) {
-        if (!button) return;
-
-        if (isLoading) {
-            button.disabled = true;
-            button.classList.add('loading');
-            const originalText = button.querySelector('.btn-text');
-            if (originalText) {
-                originalText.style.opacity = '0';
-            }
-        } else {
-            button.disabled = false;
-            button.classList.remove('loading');
-            const originalText = button.querySelector('.btn-text');
-            if (originalText) {
-                originalText.style.opacity = '1';
-            }
-        }
-    }
-
-    showNotification(message, type = 'info') {
-        if (window.flowerShop && window.flowerShop.showNotification) {
-            window.flowerShop.showNotification(message, type);
-        } else {
-            alert(message); // Fallback
-        }
-    }
-
-    // Public methods
-    isAuthenticated() {
-        return this.currentUser !== null;
-    }
-
-    isAdmin() {
-        return this.currentUser && this.currentUser.isAdmin;
-    }
-
-    getCurrentUser() {
-        return this.currentUser;
+        if (subtotalElement) subtotalElement.textContent = `${subtotal.toFixed(2)} ₽`;
+        if (deliveryFeeElement) deliveryFeeElement.textContent = deliveryFee === 0 ? 'БЕСПЛАТНО' : `${deliveryFee.toFixed(2)} ₽`;
+        if (taxElement) taxElement.textContent = `${tax.toFixed(2)} ₽`;
+        if (totalElement) totalElement.textContent = `${total.toFixed(2)} ₽`;
     }
 }
 
-// Initialize auth manager when DOM is loaded
+// Initialize cart manager when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.authManager = new AuthManager();
+    window.cartManager = new CartManager();
 });

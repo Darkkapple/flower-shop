@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flower Catalog - Flower Shop</title>
-    <meta name="description" content="Browse our complete collection of fresh flowers, bouquets, and arrangements for every occasion.">
-    
+    <title>Каталог цветов - Flowershop</title>
+    <meta name="description" content="Просмотрите нашу полную коллекцию свежих цветов, букетов и композиций для любого случая.">
+
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/auth.css">
 </head>
@@ -15,28 +15,28 @@
         <nav class="navbar container">
             <a href="/" class="logo">
                 <span class="logo-icon">🌸</span>
-                Flower Shop
+                Flowershop
             </a>
-            
+
             <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/catalog" class="active">Catalog</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/catalog" class="active">Каталог</a></li>
+                <li><a href="/about">О нас</a></li>
+                <li><a href="/contact">Контакты</a></li>
             </ul>
-            
+
             <div class="nav-actions">
                 <a href="/cart" class="cart-link">
-                    <span>Cart</span>
+                    <span>Корзина</span>
                     <span id="cart-count" class="cart-count">0</span>
                 </a>
-                
+
                 <div id="user-info" class="user-info" style="display: none;">
-                    <span>Hello, <span id="username"></span></span>
-                    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+                    <span>Привет, <span id="username"></span></span>
+                    <button id="logout-btn" class="btn btn-outline btn-sm">Выйти</button>
                 </div>
-                
-                <a href="/login" id="login-btn" class="btn btn-primary">Login</a>
+
+                <a href="/login" id="login-btn" class="btn btn-primary">Войти</a>
             </div>
         </nav>
     </header>
@@ -45,8 +45,8 @@
     <section class="hero" style="padding: 4rem 0; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">Flower Catalog</h1>
-                <p class="hero-description">Discover our beautiful collection of fresh flowers and arrangements</p>
+                <h1 class="hero-title">Каталог цветов</h1>
+                <p class="hero-description">Откройте нашу прекрасную коллекцию свежих цветов и композиций</p>
             </div>
         </div>
     </section>
@@ -56,36 +56,36 @@
         <div class="container">
             <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                 <div class="feature-card" style="text-align: left;">
-                    <h3>Search</h3>
-                    <input type="text" id="search-input" placeholder="Search flowers..." style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                    <h3>Поиск</h3>
+                    <input type="text" id="search-input" placeholder="Поиск цветов..." style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                 </div>
-                
+
                 <div class="feature-card" style="text-align: left;">
-                    <h3>Category</h3>
+                    <h3>Категория</h3>
                     <select id="category-filter" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
-                        <option value="">All Categories</option>
-                        <option value="Roses">Roses</option>
-                        <option value="Tulips">Tulips</option>
-                        <option value="Lilies">Lilies</option>
-                        <option value="Seasonal">Seasonal</option>
+                        <option value="">Все категории</option>
+                        <option value="Roses">Розы</option>
+                        <option value="Tulips">Тюльпаны</option>
+                        <option value="Lilies">Лилии</option>
+                        <option value="Seasonal">Сезонные</option>
                     </select>
                 </div>
-                
+
                 <div class="feature-card" style="text-align: left;">
-                    <h3>Price Range</h3>
+                    <h3>Ценовой диапазон</h3>
                     <div style="display: flex; gap: 0.5rem;">
-                        <input type="number" id="min-price" placeholder="Min" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
-                        <input type="number" id="max-price" placeholder="Max" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        <input type="number" id="min-price" placeholder="Мин" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        <input type="number" id="max-price" placeholder="Макс" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                     </div>
                 </div>
-                
+
                 <div class="feature-card" style="text-align: left;">
-                    <h3>Filters</h3>
+                    <h3>Фильтры</h3>
                     <label style="display: flex; align-items: center; gap: 0.5rem;">
                         <input type="checkbox" id="in-stock-only">
-                        In Stock Only
+                        Только в наличии
                     </label>
-                    <button id="clear-filters" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;">Clear Filters</button>
+                    <button id="clear-filters" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;">Сбросить фильтры</button>
                 </div>
             </div>
         </div>
@@ -95,8 +95,8 @@
     <section class="section-padding">
         <div class="container">
             <div class="section-header">
-                <h2>All Flowers</h2>
-                <p>Browse our complete collection</p>
+                <h2>Все цветы</h2>
+                <p>Просмотрите нашу полную коллекцию</p>
             </div>
 
             <div id="products-grid" class="products-grid">
@@ -106,7 +106,7 @@
 
             <!-- Load More Button -->
             <div style="text-align: center; margin-top: 3rem;">
-                <button id="load-more" class="btn btn-primary">Load More Flowers</button>
+                <button id="load-more" class="btn btn-primary">Загрузить еще</button>
             </div>
         </div>
     </section>
@@ -118,39 +118,39 @@
                 <div class="footer-section">
                     <div class="footer-logo">
                         <span class="logo-icon">🌸</span>
-                        Flower Shop
+                        Flowershop
                     </div>
                     <p class="footer-description">
-                        Making every occasion special with beautiful flowers.
+                        Делаем каждый случай особенным с красивыми цветами.
                     </p>
                 </div>
-                
+
                 <div class="footer-section">
-                    <h3 class="footer-title">Quick Links</h3>
+                    <h3 class="footer-title">Быстрые ссылки</h3>
                     <ul class="footer-links">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/catalog">Catalog</a></li>
-                        <li><a href="/about">About</a></li>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/catalog">Каталог</a></li>
+                        <li><a href="/about">О нас</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
-                    <h3 class="footer-title">Contact</h3>
+                    <h3 class="footer-title">Контакты</h3>
                     <div class="contact-info">
                         <div class="contact-item">
                             <span>📧</span>
-                            <span>info@flowershop.com</span>
+                            <span>info@flowershop.ru</span>
                         </div>
                         <div class="contact-item">
                             <span>📞</span>
-                            <span>(555) 123-4567</span>
+                            <span>+7 (913) 155 70-00</span>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
-                <p>&copy; 2024 Flower Shop. All rights reserved.</p>
+                <p>&copy; 2025 Flowershop. Все права защищены.</p>
             </div>
         </div>
     </footer>
@@ -159,53 +159,53 @@
     <script src="/js/auth.js"></script>
     <script src="/js/cart.js"></script>
     <script src="/js/main.js"></script>
-    
+
     <script>
         // Catalog page functionality
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('Catalog page loaded');
-            
+
             let allProducts = [];
             let displayedProducts = [];
             const productsPerPage = 8;
-            
+
             // Load products
             try {
                 const response = await fetch('/api/products');
                 const data = await response.json();
-                
+
                 if (data.success) {
                     allProducts = data.data;
                     displayedProducts = allProducts.slice(0, productsPerPage);
                     renderProducts(displayedProducts);
-                    
+
                     // Setup load more button
                     const loadMoreBtn = document.getElementById('load-more');
                     if (loadMoreBtn) {
                         loadMoreBtn.addEventListener('click', loadMoreProducts);
                     }
-                    
+
                     // Setup filters
                     setupFilters();
                 }
             } catch (error) {
                 console.error('Error loading products:', error);
-                document.getElementById('products-grid').innerHTML = '<p>Error loading products. Please try again later.</p>';
+                document.getElementById('products-grid').innerHTML = '<p>Ошибка загрузки товаров. Пожалуйста, попробуйте позже.</p>';
             }
-            
+
             function renderProducts(products) {
                 const grid = document.getElementById('products-grid');
                 if (!grid) return;
-                
+
                 if (products.length === 0) {
-                    grid.innerHTML = '<p>No products found matching your criteria.</p>';
+                    grid.innerHTML = '<p>Товары по вашему запросу не найдены.</p>';
                     return;
                 }
-                
+
                 grid.innerHTML = products.map(product => `
                     <div class="product-card">
                         <div class="product-image">
-                            ${product.image_url ? 
+                            ${product.image_url ?
                                 `<img src="${product.image_url}" alt="${product.name}" onerror="this.style.display='none'">` :
                                 '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);">🌸</div>'
                             }
@@ -216,41 +216,41 @@
                             <div class="product-meta">
                                 <span class="product-category">${product.category_name}</span>
                                 <span class="product-stock ${product.stock_quantity > 0 ? 'in-stock' : 'out-of-stock'}">
-                                    ${product.stock_quantity > 0 ? 'In Stock' : 'Out of Stock'}
+                                    ${product.stock_quantity > 0 ? 'В наличии' : 'Нет в наличии'}
                                 </span>
                             </div>
                             <div class="product-footer">
-                                <span class="product-price">$${product.price}</span>
-                                <button class="btn btn-primary add-to-cart" 
+                                <span class="product-price">${product.price} ₽</span>
+                                <button class="btn btn-primary add-to-cart"
                                         data-id="${product.id}"
                                         data-name="${product.name}"
                                         data-price="${product.price}"
                                         ${product.stock_quantity === 0 ? 'disabled' : ''}>
-                                    ${product.stock_quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                                    ${product.stock_quantity === 0 ? 'Нет в наличии' : 'В корзину'}
                                 </button>
                             </div>
                         </div>
                     </div>
                 `).join('');
             }
-            
+
             function loadMoreProducts() {
                 const currentCount = displayedProducts.length;
                 const nextProducts = allProducts.slice(currentCount, currentCount + productsPerPage);
-                
+
                 if (nextProducts.length === 0) {
                     document.getElementById('load-more').style.display = 'none';
                     return;
                 }
-                
+
                 displayedProducts = [...displayedProducts, ...nextProducts];
                 renderProducts(displayedProducts);
-                
+
                 if (displayedProducts.length >= allProducts.length) {
                     document.getElementById('load-more').style.display = 'none';
                 }
             }
-            
+
             function setupFilters() {
                 const searchInput = document.getElementById('search-input');
                 const categoryFilter = document.getElementById('category-filter');
@@ -258,62 +258,62 @@
                 const maxPrice = document.getElementById('max-price');
                 const inStockOnly = document.getElementById('in-stock-only');
                 const clearFilters = document.getElementById('clear-filters');
-                
+
                 function applyFilters() {
                     let filtered = allProducts;
-                    
+
                     // Search filter
                     if (searchInput.value) {
-                        filtered = filtered.filter(product => 
+                        filtered = filtered.filter(product =>
                             product.name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
                             product.description.toLowerCase().includes(searchInput.value.toLowerCase())
                         );
                     }
-                    
+
                     // Category filter
                     if (categoryFilter.value) {
-                        filtered = filtered.filter(product => 
+                        filtered = filtered.filter(product =>
                             product.category_name === categoryFilter.value
                         );
                     }
-                    
+
                     // Price filter
                     if (minPrice.value) {
-                        filtered = filtered.filter(product => 
+                        filtered = filtered.filter(product =>
                             product.price >= parseFloat(minPrice.value)
                         );
                     }
-                    
+
                     if (maxPrice.value) {
-                        filtered = filtered.filter(product => 
+                        filtered = filtered.filter(product =>
                             product.price <= parseFloat(maxPrice.value)
                         );
                     }
-                    
+
                     // Stock filter
                     if (inStockOnly.checked) {
-                        filtered = filtered.filter(product => 
+                        filtered = filtered.filter(product =>
                             product.stock_quantity > 0
                         );
                     }
-                    
+
                     displayedProducts = filtered.slice(0, productsPerPage);
                     renderProducts(displayedProducts);
-                    
+
                     // Show/hide load more button
                     const loadMoreBtn = document.getElementById('load-more');
                     if (loadMoreBtn) {
                         loadMoreBtn.style.display = filtered.length > productsPerPage ? 'block' : 'none';
                     }
                 }
-                
+
                 // Event listeners
                 if (searchInput) searchInput.addEventListener('input', applyFilters);
                 if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
                 if (minPrice) minPrice.addEventListener('change', applyFilters);
                 if (maxPrice) maxPrice.addEventListener('change', applyFilters);
                 if (inStockOnly) inStockOnly.addEventListener('change', applyFilters);
-                
+
                 if (clearFilters) {
                     clearFilters.addEventListener('click', () => {
                         searchInput.value = '';

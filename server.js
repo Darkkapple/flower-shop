@@ -9,35 +9,18 @@ require('dotenv').config();
 
 const app = express();
 
-// Security middleware
-app.use(helmet({
-    contentSecurityPolicy: false
-}));
-
-// Performance middleware
+// Middleware
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(compression());
 app.use(morgan('combined'));
-
-// Rate limiting
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100
-});
-app.use(limiter);
-
-// Body parsing
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// Session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET || 'flower-shop-secret-key',
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000
-    }
+    cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 24 * 60 * 60 * 1000 }
 }));
 
 // Static files
@@ -71,49 +54,69 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'pages', 'admin.html'));
 });
 
-// API Routes
+// API Routes с русскими данными
 app.get('/api/products', (req, res) => {
     res.json({
         success: true,
         data: [
             {
                 id: 1,
-                name: "Red Roses Bouquet",
-                description: "12 beautiful red roses in an elegant arrangement",
-                price: 25.99,
-                category_name: "Roses",
+                name: "Букет красных роз",
+                description: "12 красивых красных роз в элегантной композиции",
+                price: 2499,
+                category_name: "Розы",
                 image_url: "/images/placeholder.jpg",
                 stock_quantity: 50,
                 is_available: true
             },
             {
                 id: 2,
-                name: "Pink Tulips",
-                description: "Fresh pink tulips for spring occasions",
-                price: 19.99,
-                category_name: "Tulips",
+                name: "Розовые тюльпаны",
+                description: "Свежие розовые тюльпаны для весенних праздников",
+                price: 1999,
+                category_name: "Тюльпаны",
                 image_url: "/images/placeholder.jpg",
                 stock_quantity: 30,
                 is_available: true
             },
             {
                 id: 3,
-                name: "White Lilies",
-                description: "Elegant white lilies bouquet",
-                price: 29.99,
-                category_name: "Lilies",
+                name: "Белые лилии",
+                description: "Элегантный букет из белых лилий",
+                price: 2999,
+                category_name: "Лилии",
                 image_url: "/images/placeholder.jpg",
                 stock_quantity: 20,
                 is_available: true
             },
             {
                 id: 4,
-                name: "Mixed Spring Flowers",
-                description: "Colorful mixed seasonal flowers",
-                price: 22.99,
-                category_name: "Seasonal",
+                name: "Смешанные весенние цветы",
+                description: "Яркие смешанные сезонные цветы",
+                price: 2299,
+                category_name: "Сезонные",
                 image_url: "/images/placeholder.jpg",
                 stock_quantity: 25,
+                is_available: true
+            },
+            {
+                id: 5,
+                name: "Экзотические орхидеи",
+                description: "Роскошные орхидеи для особых случаев",
+                price: 3499,
+                category_name: "Экзотические",
+                image_url: "/images/placeholder.jpg",
+                stock_quantity: 15,
+                is_available: true
+            },
+            {
+                id: 6,
+                name: "Солнечные подсолнухи",
+                description: "Яркие подсолнухи, поднимающие настроение",
+                price: 1799,
+                category_name: "Сезонные",
+                image_url: "/images/placeholder.jpg",
+                stock_quantity: 35,
                 is_available: true
             }
         ]
@@ -124,47 +127,21 @@ app.get('/api/products/categories/all', (req, res) => {
     res.json({
         success: true,
         data: [
-            { id: 1, name: "Roses", description: "Beautiful roses for every occasion" },
-            { id: 2, name: "Tulips", description: "Colorful tulips for spring" },
-            { id: 3, name: "Lilies", description: "Elegant lilies for special moments" },
-            { id: 4, name: "Seasonal", description: "Fresh seasonal selections" }
+            { id: 1, name: "Розы", description: "Красивые розы для любого случая" },
+            { id: 2, name: "Тюльпаны", description: "Яркие тюльпаны для весны" },
+            { id: 3, name: "Лилии", description: "Элегантные лилии для особых моментов" },
+            { id: 4, name: "Сезонные", description: "Свежие сезонные подборки" },
+            { id: 5, name: "Экзотические", description: "Роскошные экзотические цветы" }
         ]
     });
 });
 
 app.get('/api/health', (req, res) => {
-    res.json({ 
-        status: 'OK', 
-        message: 'Flower Shop API is running',
+    res.json({
+        status: 'OK',
+        message: 'API Flowershop работает',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV || 'development'
-    });
-});
-
-// Debug endpoint to check file structure
-app.get('/debug/files', (req, res) => {
-    const fs = require('fs');
-    const getFiles = (dir, prefix = '') => {
-        try {
-            const files = fs.readdirSync(dir);
-            return files.map(file => {
-                const filePath = path.join(dir, file);
-                const stat = fs.statSync(filePath);
-                if (stat.isDirectory()) {
-                    return { name: prefix + file + '/', type: 'directory' };
-                } else {
-                    return { name: prefix + file, type: 'file', size: stat.size };
-                }
-            });
-        } catch (error) {
-            return [{ name: `Error reading ${dir}: ${error.message}`, type: 'error' }];
-        }
-    };
-
-    res.json({
-        public: getFiles(path.join(__dirname, 'public')),
-        views: getFiles(path.join(__dirname, 'views')),
-        currentDir: __dirname
     });
 });
 
@@ -175,7 +152,6 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🌸 Flower Shop running on port ${PORT}`);
-    console.log(`🔗 http://localhost:${PORT}`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🌸 Flowershop запущен на порту ${PORT}`);
+    console.log(`🌍 Окружение: ${process.env.NODE_ENV || 'development'}`);
 });

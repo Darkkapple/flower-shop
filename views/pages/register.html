@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Flower Shop</title>
-    <meta name="description" content="Create a new Flower Shop account to save favorites and track orders.">
-    
+    <title>Регистрация - Flowershop</title>
+    <meta name="description" content="Создайте новый аккаунт в Цветочном Магазине для сохранения избранного и отслеживания заказов.">
+
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/auth.css">
 </head>
@@ -15,9 +15,9 @@
         <nav class="navbar container">
             <a href="/" class="logo">
                 <span class="logo-icon">🌸</span>
-                Flower Shop
+                Flowershop
             </a>
-            <a href="/" class="btn btn-outline">Back to Home</a>
+            <a href="/" class="btn btn-outline">На главную</a>
         </nav>
     </header>
 
@@ -28,46 +28,46 @@
             <div class="auth-header">
                 <div class="auth-logo">
                     <span class="logo-icon">🌸</span>
-                    Flower Shop
+                    Flowershop
                 </div>
-                <h1 class="auth-title">Create Account</h1>
-                <p class="auth-subtitle">Join us to start your floral journey</p>
+                <h1 class="auth-title">Создать аккаунт</h1>
+                <p class="auth-subtitle">Присоединяйтесь к нам, чтобы начать цветочное путешествие</p>
             </div>
 
             <!-- Registration Form -->
             <form class="auth-form" id="register-form" data-validate>
                 <div class="form-group">
-                    <label for="reg-username">Username</label>
-                    <input type="text" 
-                           id="reg-username" 
-                           name="username" 
-                           required 
+                    <label for="reg-username">Имя пользователя</label>
+                    <input type="text"
+                           id="reg-username"
+                           name="username"
+                           required
                            autocomplete="username"
-                           placeholder="Choose a username"
+                           placeholder="Выберите имя пользователя"
                            minlength="3"
                            maxlength="50">
                     <span class="error-message" id="username-error"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="reg-email">Email Address</label>
-                    <input type="email" 
-                           id="reg-email" 
-                           name="email" 
-                           required 
+                    <label for="reg-email">Email адрес</label>
+                    <input type="email"
+                           id="reg-email"
+                           name="email"
+                           required
                            autocomplete="email"
-                           placeholder="Enter your email address">
+                           placeholder="Введите ваш email адрес">
                     <span class="error-message" id="email-error"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="reg-password">Password</label>
-                    <input type="password" 
-                           id="reg-password" 
-                           name="password" 
-                           required 
+                    <label for="reg-password">Пароль</label>
+                    <input type="password"
+                           id="reg-password"
+                           name="password"
+                           required
                            autocomplete="new-password"
-                           placeholder="Create a password"
+                           placeholder="Создайте пароль"
                            minlength="6">
                     <div class="password-strength">
                         <div class="strength-bar">
@@ -78,13 +78,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="reg-confirm-password">Confirm Password</label>
-                    <input type="password" 
-                           id="reg-confirm-password" 
-                           name="confirmPassword" 
-                           required 
+                    <label for="reg-confirm-password">Подтвердите пароль</label>
+                    <input type="password"
+                           id="reg-confirm-password"
+                           name="confirmPassword"
+                           required
                            autocomplete="new-password"
-                           placeholder="Confirm your password">
+                           placeholder="Подтвердите ваш пароль">
                     <span class="error-message" id="confirm-password-error"></span>
                 </div>
 
@@ -92,20 +92,20 @@
                     <div class="checkbox-group">
                         <input type="checkbox" id="agree-terms" name="agree-terms" required>
                         <label for="agree-terms" class="checkbox-label">
-                            I agree to the <a href="/terms" target="_blank" style="color: var(--primary-color);">Terms of Service</a> 
-                            and <a href="/privacy" target="_blank" style="color: var(--primary-color);">Privacy Policy</a>
+                            Я согласен с <a href="/terms" target="_blank" style="color: var(--primary-color);">Условиями использования</a>
+                            и <a href="/privacy" target="_blank" style="color: var(--primary-color);">Политикой конфиденциальности</a>
                         </label>
                     </div>
                     <div class="checkbox-group">
                         <input type="checkbox" id="newsletter" name="newsletter">
                         <label for="newsletter" class="checkbox-label">
-                            Send me special offers and flower care tips
+                            Присылать мне специальные предложения и советы по уходу за цветами
                         </label>
                     </div>
                 </div>
 
                 <button type="submit" class="auth-btn" id="register-submit-btn">
-                    <span class="btn-text">Create Account</span>
+                    <span class="btn-text">Создать аккаунт</span>
                     <div class="btn-spinner"></div>
                 </button>
             </form>
@@ -113,7 +113,7 @@
             <!-- Social Registration -->
             <div class="social-login">
                 <div class="divider">
-                    <span>Or sign up with</span>
+                    <span>Или зарегистрируйтесь через</span>
                 </div>
                 <div class="social-buttons">
                     <button type="button" class="social-btn google-btn" disabled>
@@ -129,7 +129,7 @@
 
             <!-- Auth Footer -->
             <div class="auth-footer">
-                <p>Already have an account? <a href="/login" class="auth-link">Sign in</a></p>
+                <p>Уже есть аккаунт? <a href="/login" class="auth-link">Войти</a></p>
             </div>
         </div>
     </div>
@@ -138,7 +138,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-bottom">
-                <p>&copy; 2024 Flower Shop. All rights reserved.</p>
+                <p>&copy; 2025 Flowershop. Все права защищены.</p>
             </div>
         </div>
     </footer>
@@ -146,7 +146,7 @@
     <!-- Scripts -->
     <script src="/js/auth.js"></script>
     <script src="/js/main.js"></script>
-    
+
     <script>
         // Redirect if already logged in
         document.addEventListener('DOMContentLoaded', () => {

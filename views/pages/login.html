@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Flower Shop</title>
-    <meta name="description" content="Login to your Flower Shop account to manage orders and save favorites.">
-    
+    <title>Вход - Flowershop</title>
+    <meta name="description" content="Войдите в свой аккаунт Flowershop для управления заказами и сохранения избранного.">
+
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/auth.css">
 </head>
@@ -15,9 +15,9 @@
         <nav class="navbar container">
             <a href="/" class="logo">
                 <span class="logo-icon">🌸</span>
-                Flower Shop
+                Flowershop
             </a>
-            <a href="/" class="btn btn-outline">Back to Home</a>
+            <a href="/" class="btn btn-outline">На главную</a>
         </nav>
     </header>
 
@@ -28,46 +28,46 @@
             <div class="auth-header">
                 <div class="auth-logo">
                     <span class="logo-icon">🌸</span>
-                    Flower Shop
+                    Flowershop
                 </div>
-                <h1 class="auth-title">Welcome Back</h1>
-                <p class="auth-subtitle">Sign in to your account to continue</p>
+                <h1 class="auth-title">С возвращением</h1>
+                <p class="auth-subtitle">Войдите в свой аккаунт, чтобы продолжить</p>
             </div>
 
             <!-- Login Form -->
             <form class="auth-form" id="login-form" data-validate>
                 <div class="form-group">
-                    <label for="username">Username or Email</label>
-                    <input type="text" 
-                           id="username" 
-                           name="username" 
-                           required 
+                    <label for="username">Имя пользователя или Email</label>
+                    <input type="text"
+                           id="username"
+                           name="username"
+                           required
                            autocomplete="username"
-                           placeholder="Enter your username or email">
+                           placeholder="Введите имя пользователя или email">
                     <span class="error-message" id="username-error"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" 
-                           id="password" 
-                           name="password" 
-                           required 
+                    <label for="password">Пароль</label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           required
                            autocomplete="current-password"
-                           placeholder="Enter your password">
+                           placeholder="Введите ваш пароль">
                     <span class="error-message" id="password-error"></span>
                 </div>
 
                 <div class="form-options">
                     <div class="checkbox-group">
                         <input type="checkbox" id="remember-me" name="remember-me">
-                        <label for="remember-me" class="checkbox-label">Remember me</label>
+                        <label for="remember-me" class="checkbox-label">Запомнить меня</label>
                     </div>
-                    <a href="/forgot-password" class="forgot-password">Forgot password?</a>
+                    <a href="/forgot-password" class="forgot-password">Забыли пароль?</a>
                 </div>
 
                 <button type="submit" class="auth-btn" id="login-submit-btn">
-                    <span class="btn-text">Sign In</span>
+                    <span class="btn-text">Войти</span>
                     <div class="btn-spinner"></div>
                 </button>
             </form>
@@ -75,14 +75,14 @@
             <!-- Demo Accounts Notice -->
             <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px; margin: 1.5rem 0; text-align: center;">
                 <p style="margin: 0; color: #1976d2; font-size: 0.9rem;">
-                    <strong>Demo:</strong> Use any username/password to test the login
+                    <strong>Демо:</strong> Используйте любое имя пользователя/пароль для тестирования
                 </p>
             </div>
 
             <!-- Social Login -->
             <div class="social-login">
                 <div class="divider">
-                    <span>Or continue with</span>
+                    <span>Или войдите через</span>
                 </div>
                 <div class="social-buttons">
                     <button type="button" class="social-btn google-btn" disabled>
@@ -98,7 +98,7 @@
 
             <!-- Auth Footer -->
             <div class="auth-footer">
-                <p>Don't have an account? <a href="/register" class="auth-link">Sign up</a></p>
+                <p>Нет аккаунта? <a href="/register" class="auth-link">Зарегистрироваться</a></p>
             </div>
         </div>
     </div>
@@ -107,7 +107,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-bottom">
-                <p>&copy; 2024 Flower Shop. All rights reserved.</p>
+                <p>&copy; 2025 Flowershop. Все права защищены.</p>
             </div>
         </div>
     </footer>
@@ -115,7 +115,7 @@
     <!-- Scripts -->
     <script src="/js/auth.js"></script>
     <script src="/js/main.js"></script>
-    
+
     <script>
         // Redirect if already logged in
         document.addEventListener('DOMContentLoaded', () => {
