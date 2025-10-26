@@ -1,130 +1,331 @@
-<!-- Include header -->
-<%- include('../partials/header', {
-    pageTitle: 'Flower Catalog',
-    pageDescription: 'Browse our complete collection of fresh flowers, bouquets, and arrangements for every occasion.',
-    canonicalUrl: '/catalog',
-    currentPage: 'catalog'
-}) %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Catalog - Flower Shop</title>
+    <meta name="description" content="Browse our complete collection of fresh flowers, bouquets, and arrangements for every occasion.">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🌸</span>
+                Flower Shop
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/catalog" class="active">Catalog</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="/cart" class="cart-link">
+                    <span>Cart</span>
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+                
+                <div id="user-info" class="user-info" style="display: none;">
+                    <span>Hello, <span id="username"></span></span>
+                    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+                </div>
+                
+                <a href="/login" id="login-btn" class="btn btn-primary">Login</a>
+            </div>
+        </nav>
+    </header>
 
     <!-- Page Header -->
-    <section class="page-header">
+    <section class="hero" style="padding: 4rem 0; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
         <div class="container">
-            <div class="page-header-content">
-                <h1>Flower Catalog</h1>
-                <p>Discover our beautiful collection of fresh flowers and arrangements</p>
+            <div class="hero-content">
+                <h1 class="hero-title">Flower Catalog</h1>
+                <p class="hero-description">Discover our beautiful collection of fresh flowers and arrangements</p>
             </div>
         </div>
     </section>
 
     <!-- Filters Section -->
-    <section class="filters-section">
+    <section class="section-padding bg-light">
         <div class="container">
-            <div class="filters-grid">
-                <!-- Search -->
-                <div class="filter-group">
-                    <label for="search-input" class="filter-label">Search</label>
-                    <input type="text"
-                           id="search-input"
-                           class="filter-input"
-                           placeholder="Search flowers...">
+            <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <div class="feature-card" style="text-align: left;">
+                    <h3>Search</h3>
+                    <input type="text" id="search-input" placeholder="Search flowers..." style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                 </div>
-
-                <!-- Category Filter -->
-                <div class="filter-group">
-                    <label for="category-filter" class="filter-label">Category</label>
-                    <select id="category-filter" class="filter-select">
+                
+                <div class="feature-card" style="text-align: left;">
+                    <h3>Category</h3>
+                    <select id="category-filter" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                         <option value="">All Categories</option>
-                        <!-- Categories loaded by JavaScript -->
+                        <option value="Roses">Roses</option>
+                        <option value="Tulips">Tulips</option>
+                        <option value="Lilies">Lilies</option>
+                        <option value="Seasonal">Seasonal</option>
                     </select>
                 </div>
-
-                <!-- Price Range -->
-                <div class="filter-group">
-                    <label class="filter-label">Price Range</label>
-                    <div class="price-range">
-                        <input type="number"
-                               id="min-price-filter"
-                               class="price-input"
-                               placeholder="Min"
-                               min="0">
-                        <span class="price-separator">-</span>
-                        <input type="number"
-                               id="max-price-filter"
-                               class="price-input"
-                               placeholder="Max"
-                               min="0">
+                
+                <div class="feature-card" style="text-align: left;">
+                    <h3>Price Range</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="number" id="min-price" placeholder="Min" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        <input type="number" id="max-price" placeholder="Max" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                     </div>
                 </div>
-
-                <!-- Stock Filter -->
-                <div class="filter-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="in-stock-filter" class="filter-checkbox">
-                        <label for="in-stock-filter" class="checkbox-label">In Stock Only</label>
-                    </div>
-                </div>
-
-                <!-- Clear Filters -->
-                <div class="filter-group">
-                    <button id="clear-filters" class="btn btn-outline">Clear Filters</button>
+                
+                <div class="feature-card" style="text-align: left;">
+                    <h3>Filters</h3>
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="in-stock-only">
+                        In Stock Only
+                    </label>
+                    <button id="clear-filters" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;">Clear Filters</button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Products Section -->
-    <section class="products-section section-padding">
+    <section class="section-padding">
         <div class="container">
-            <!-- Products Header -->
-            <div class="products-header">
-                <div class="products-info">
-                    <h2 id="products-count">All Products</h2>
-                    <p id="products-summary">Showing all available flowers</p>
-                </div>
-                <div class="products-sort">
-                    <label for="sort-select" class="sort-label">Sort by:</label>
-                    <select id="sort-select" class="sort-select">
-                        <option value="name">Name A-Z</option>
-                        <option value="name_desc">Name Z-A</option>
-                        <option value="price">Price: Low to High</option>
-                        <option value="price_desc">Price: High to Low</option>
-                        <option value="newest">Newest First</option>
-                    </select>
-                </div>
+            <div class="section-header">
+                <h2>All Flowers</h2>
+                <p>Browse our complete collection</p>
             </div>
 
-            <!-- Products Grid -->
             <div id="products-grid" class="products-grid">
-                <div class="loading-products">
-                    <div class="loading-spinner"></div>
-                    <p>Loading products...</p>
-                </div>
-            </div>
-
-            <!-- No Products Message -->
-            <div id="no-products-message" class="no-products-message" style="display: none;">
-                <div class="no-products-icon">🌸</div>
-                <h3>No Products Found</h3>
-                <p>Try adjusting your search filters or browse different categories.</p>
-                <button id="reset-filters" class="btn btn-primary">Reset Filters</button>
+                <!-- Products loaded by JavaScript -->
+                <div class="loading-spinner"></div>
             </div>
 
             <!-- Load More Button -->
-            <div class="load-more-container" id="load-more-container" style="display: none;">
-                <button id="load-more-btn" class="btn btn-outline">Load More Products</button>
+            <div style="text-align: center; margin-top: 3rem;">
+                <button id="load-more" class="btn btn-primary">Load More Flowers</button>
             </div>
         </div>
     </section>
 
-<!-- Include footer -->
-<%- include('../partials/footer') %>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-icon">🌸</span>
+                        Flower Shop
+                    </div>
+                    <p class="footer-description">
+                        Making every occasion special with beautiful flowers.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/catalog">Catalog</a></li>
+                        <li><a href="/about">About</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Contact</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span>📧</span>
+                            <span>info@flowershop.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span>📞</span>
+                            <span>(555) 123-4567</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Flower Shop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-<script>
-    // Initialize product manager for catalog page
-    document.addEventListener('DOMContentLoaded', () => {
-        if (window.productManager) {
-            // Catalog page specific initialization can go here
-            console.log('Catalog page initialized');
-        }
-    });
-</script>
+    <!-- Scripts -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/cart.js"></script>
+    <script src="/js/main.js"></script>
+    
+    <script>
+        // Catalog page functionality
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Catalog page loaded');
+            
+            let allProducts = [];
+            let displayedProducts = [];
+            const productsPerPage = 8;
+            
+            // Load products
+            try {
+                const response = await fetch('/api/products');
+                const data = await response.json();
+                
+                if (data.success) {
+                    allProducts = data.data;
+                    displayedProducts = allProducts.slice(0, productsPerPage);
+                    renderProducts(displayedProducts);
+                    
+                    // Setup load more button
+                    const loadMoreBtn = document.getElementById('load-more');
+                    if (loadMoreBtn) {
+                        loadMoreBtn.addEventListener('click', loadMoreProducts);
+                    }
+                    
+                    // Setup filters
+                    setupFilters();
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('products-grid').innerHTML = '<p>Error loading products. Please try again later.</p>';
+            }
+            
+            function renderProducts(products) {
+                const grid = document.getElementById('products-grid');
+                if (!grid) return;
+                
+                if (products.length === 0) {
+                    grid.innerHTML = '<p>No products found matching your criteria.</p>';
+                    return;
+                }
+                
+                grid.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image">
+                            ${product.image_url ? 
+                                `<img src="${product.image_url}" alt="${product.name}" onerror="this.style.display='none'">` :
+                                '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);">🌸</div>'
+                            }
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-description">${product.description}</p>
+                            <div class="product-meta">
+                                <span class="product-category">${product.category_name}</span>
+                                <span class="product-stock ${product.stock_quantity > 0 ? 'in-stock' : 'out-of-stock'}">
+                                    ${product.stock_quantity > 0 ? 'In Stock' : 'Out of Stock'}
+                                </span>
+                            </div>
+                            <div class="product-footer">
+                                <span class="product-price">$${product.price}</span>
+                                <button class="btn btn-primary add-to-cart" 
+                                        data-id="${product.id}"
+                                        data-name="${product.name}"
+                                        data-price="${product.price}"
+                                        ${product.stock_quantity === 0 ? 'disabled' : ''}>
+                                    ${product.stock_quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            function loadMoreProducts() {
+                const currentCount = displayedProducts.length;
+                const nextProducts = allProducts.slice(currentCount, currentCount + productsPerPage);
+                
+                if (nextProducts.length === 0) {
+                    document.getElementById('load-more').style.display = 'none';
+                    return;
+                }
+                
+                displayedProducts = [...displayedProducts, ...nextProducts];
+                renderProducts(displayedProducts);
+                
+                if (displayedProducts.length >= allProducts.length) {
+                    document.getElementById('load-more').style.display = 'none';
+                }
+            }
+            
+            function setupFilters() {
+                const searchInput = document.getElementById('search-input');
+                const categoryFilter = document.getElementById('category-filter');
+                const minPrice = document.getElementById('min-price');
+                const maxPrice = document.getElementById('max-price');
+                const inStockOnly = document.getElementById('in-stock-only');
+                const clearFilters = document.getElementById('clear-filters');
+                
+                function applyFilters() {
+                    let filtered = allProducts;
+                    
+                    // Search filter
+                    if (searchInput.value) {
+                        filtered = filtered.filter(product => 
+                            product.name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+                            product.description.toLowerCase().includes(searchInput.value.toLowerCase())
+                        );
+                    }
+                    
+                    // Category filter
+                    if (categoryFilter.value) {
+                        filtered = filtered.filter(product => 
+                            product.category_name === categoryFilter.value
+                        );
+                    }
+                    
+                    // Price filter
+                    if (minPrice.value) {
+                        filtered = filtered.filter(product => 
+                            product.price >= parseFloat(minPrice.value)
+                        );
+                    }
+                    
+                    if (maxPrice.value) {
+                        filtered = filtered.filter(product => 
+                            product.price <= parseFloat(maxPrice.value)
+                        );
+                    }
+                    
+                    // Stock filter
+                    if (inStockOnly.checked) {
+                        filtered = filtered.filter(product => 
+                            product.stock_quantity > 0
+                        );
+                    }
+                    
+                    displayedProducts = filtered.slice(0, productsPerPage);
+                    renderProducts(displayedProducts);
+                    
+                    // Show/hide load more button
+                    const loadMoreBtn = document.getElementById('load-more');
+                    if (loadMoreBtn) {
+                        loadMoreBtn.style.display = filtered.length > productsPerPage ? 'block' : 'none';
+                    }
+                }
+                
+                // Event listeners
+                if (searchInput) searchInput.addEventListener('input', applyFilters);
+                if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
+                if (minPrice) minPrice.addEventListener('change', applyFilters);
+                if (maxPrice) maxPrice.addEventListener('change', applyFilters);
+                if (inStockOnly) inStockOnly.addEventListener('change', applyFilters);
+                
+                if (clearFilters) {
+                    clearFilters.addEventListener('click', () => {
+                        searchInput.value = '';
+                        categoryFilter.value = '';
+                        minPrice.value = '';
+                        maxPrice.value = '';
+                        inStockOnly.checked = false;
+                        applyFilters();
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
