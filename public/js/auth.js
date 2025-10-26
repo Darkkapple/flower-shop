@@ -1,14 +1,461 @@
+/**
+ * Authentication Manager for Flower Shop
+ * Handles user authentication, registration, and session management
+ */
+
 class AuthManager {
     constructor() {
+        this.currentUser = null;
+        this.isInitialized = false;
         this.init();
     }
 
     init() {
-        console.log('Auth manager initialized');
-        // Basic auth functionality will be added later
+        if (this.isInitialized) return;
+
+        console.log('🔐 Auth Manager initializing...');
+        this.bindAuthEvents();
+        this.checkAuthStatus();
+        this.setupFormValidation();
+        
+        this.isInitialized = true;
+        console.log('🔐 Auth Manager initialized successfully');
+    }
+
+    bindAuthEvents() {
+        // Login form handler
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+        }
+
+        // Register form handler
+        const registerForm = document.getElementById('register-form');
+        if (registerForm) {
+            registerForm.addEventListener('submit', (e) => this.handleRegister(e));
+        }
+
+        // Logout button
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => this.handleLogout());
+        }
+
+        // Mobile logout
+        const mobileLogoutBtn = document.querySelector('.logout-btn-mobile');
+        if (mobileLogoutBtn) {
+            mobileLogoutBtn.addEventListener('click', () => this.handleLogout());
+        }
+
+        // Password strength indicator
+        const passwordInput = document.getElementById('reg-password');
+        if (passwordInput) {
+            passwordInput.addEventListener('input', () => this.updatePasswordStrength());
+        }
+
+        // Confirm password validation
+        const confirmPasswordInput = document.getElementById('reg-confirm-password');
+        if (confirmPasswordInput) {
+            confirmPasswordInput.addEventListener('input', () => this.validatePasswordMatch());
+        }
+    }
+
+    setupFormValidation() {
+        // Real-time validation for forms
+        const forms = document.querySelectorAll('form[data-validate]');
+        forms.forEach(form => {
+            const inputs = form.querySelectorAll('input[required]');
+            inputs.forEach(input => {
+                input.addEventListener('blur', () => this.validateField(input));
+                input.addEventListener('input', () => this.clearFieldError(input));
+            });
+        });
+    }
+
+    async handleLogin(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+        const credentials = {
+            username: formData.get('username'),
+            password: formData.get('password')
+        };
+
+        // Validate form
+        if (!this.validateForm(form)) {
+            return;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        this.setButtonLoading(submitBtn, true);
+
+        try {
+            // Simulate API call - in real app, this would be fetch('/api/auth/login')
+            console.log('Attempting login for:', credentials.username);
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Mock successful login
+            const mockUser = {
+                id: 1,
+                username: credentials.username,
+                email: `${credentials.username}@example.com`,
+                isAdmin: credentials.username === 'admin'
+            };
+
+            this.currentUser = mockUser;
+            this.saveUserToStorage(mockUser);
+            this.updateUI();
+            
+            this.showNotification('Login successful! Welcome back!', 'success');
+            
+            // Redirect to home page after short delay
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1000);
+
+        } catch (error) {
+            console.error('Login error:', error);
+            this.showNotification('Invalid username or password. Please try again.', 'error');
+        } finally {
+            this.setButtonLoading(submitBtn, false);
+        }
+    }
+
+    async handleRegister(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+        const userData = {
+            username: formData.get('username'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+            confirmPassword: formData.get('confirmPassword')
+        };
+
+        // Validate form
+        if (!this.validateForm(form)) {
+            return;
+        }
+
+        // Check password match
+        if (userData.password !== userData.confirmPassword) {
+            this.showFieldError('reg-confirm-password', 'Passwords do not match');
+            return;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        this.setButtonLoading(submitBtn, true);
+
+        try {
+            // Simulate API call
+            console.log('Attempting registration for:', userData.username);
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Mock successful registration
+            this.showNotification('Registration successful! Please login.', 'success');
+            
+            // Redirect to login page after delay
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
+
+        } catch (error) {
+            console.error('Registration error:', error);
+            this.showNotification('Registration failed. Please try again.', 'error');
+        } finally {
+            this.setButtonLoading(submitBtn, false);
+        }
+    }
+
+    async handleLogout() {
+        try {
+            // Simulate API call
+            console.log('Logging out user:', this.currentUser?.username);
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            this.currentUser = null;
+            this.clearUserFromStorage();
+            this.updateUI();
+            
+            this.showNotification('Logged out successfully', 'success');
+            
+            // Redirect to home page after short delay
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 500);
+
+        } catch (error) {
+            console.error('Logout error:', error);
+            this.showNotification('Logout failed', 'error');
+        }
+    }
+
+    validateForm(form) {
+        let isValid = true;
+        const inputs = form.querySelectorAll('input[required]');
+        
+        inputs.forEach(input => {
+            if (!this.validateField(input)) {
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
+    validateField(input) {
+        const value = input.value.trim();
+        const fieldName = input.name || input.id;
+        
+        // Clear previous error
+        this.clearFieldError(input);
+
+        // Required field validation
+        if (!value) {
+            this.showFieldError(input, 'This field is required');
+            return false;
+        }
+
+        // Email validation
+        if (fieldName.includes('email') && !this.isValidEmail(value)) {
+            this.showFieldError(input, 'Please enter a valid email address');
+            return false;
+        }
+
+        // Username validation
+        if (fieldName.includes('username') && value.length < 3) {
+            this.showFieldError(input, 'Username must be at least 3 characters');
+            return false;
+        }
+
+        // Password validation
+        if (fieldName.includes('password') && value.length < 6) {
+            this.showFieldError(input, 'Password must be at least 6 characters');
+            return false;
+        }
+
+        return true;
+    }
+
+    validatePasswordMatch() {
+        const password = document.getElementById('reg-password');
+        const confirmPassword = document.getElementById('reg-confirm-password');
+        
+        if (!password || !confirmPassword) return;
+
+        if (confirmPassword.value && password.value !== confirmPassword.value) {
+            this.showFieldError(confirmPassword, 'Passwords do not match');
+        } else {
+            this.clearFieldError(confirmPassword);
+        }
+    }
+
+    updatePasswordStrength() {
+        const passwordInput = document.getElementById('reg-password');
+        const strengthBar = document.getElementById('password-strength');
+        const strengthText = document.querySelector('.strength-text');
+        
+        if (!passwordInput || !strengthBar) return;
+
+        const password = passwordInput.value;
+        let strength = 0;
+        let text = '';
+        let className = '';
+        
+        if (password.length >= 6) strength += 1;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
+        if (password.match(/\d/)) strength += 1;
+        if (password.match(/[^a-zA-Z\d]/)) strength += 1;
+        
+        switch (strength) {
+            case 0:
+                text = '';
+                className = '';
+                break;
+            case 1:
+                text = 'Weak';
+                className = 'strength-weak';
+                break;
+            case 2:
+                text = 'Medium';
+                className = 'strength-medium';
+                break;
+            case 3:
+            case 4:
+                text = 'Strong';
+                className = 'strength-strong';
+                break;
+        }
+
+        strengthBar.className = `strength-fill ${className}`;
+        if (strengthText) {
+            strengthText.textContent = text;
+        }
+    }
+
+    showFieldError(input, message) {
+        const field = typeof input === 'string' ? document.getElementById(input) : input;
+        if (!field) return;
+
+        field.classList.add('error');
+        
+        let errorElement = field.parentNode.querySelector('.error-message');
+        if (!errorElement) {
+            errorElement = document.createElement('span');
+            errorElement.className = 'error-message';
+            field.parentNode.appendChild(errorElement);
+        }
+        
+        errorElement.textContent = message;
+    }
+
+    clearFieldError(input) {
+        const field = typeof input === 'string' ? document.getElementById(input) : input;
+        if (!field) return;
+
+        field.classList.remove('error');
+        
+        const errorElement = field.parentNode.querySelector('.error-message');
+        if (errorElement) {
+            errorElement.remove();
+        }
+    }
+
+    isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    async checkAuthStatus() {
+        try {
+            // Check if user data exists in storage
+            const userData = this.getUserFromStorage();
+            if (userData) {
+                this.currentUser = userData;
+                this.updateUI();
+                console.log('User authenticated from storage:', userData.username);
+            }
+        } catch (error) {
+            console.error('Auth status check error:', error);
+        }
+    }
+
+    saveUserToStorage(user) {
+        try {
+            localStorage.setItem('flowerShopUser', JSON.stringify(user));
+            localStorage.setItem('flowerShopAuth', 'true');
+        } catch (error) {
+            console.error('Error saving user to storage:', error);
+        }
+    }
+
+    getUserFromStorage() {
+        try {
+            const userData = localStorage.getItem('flowerShopUser');
+            return userData ? JSON.parse(userData) : null;
+        } catch (error) {
+            console.error('Error getting user from storage:', error);
+            return null;
+        }
+    }
+
+    clearUserFromStorage() {
+        try {
+            localStorage.removeItem('flowerShopUser');
+            localStorage.removeItem('flowerShopAuth');
+        } catch (error) {
+            console.error('Error clearing user from storage:', error);
+        }
+    }
+
+    updateUI() {
+        const loginBtn = document.getElementById('login-btn');
+        const userInfo = document.getElementById('user-info');
+        const usernameSpan = document.getElementById('username');
+        const adminPanelLink = document.getElementById('admin-panel-link');
+        const mobileLoginBtn = document.getElementById('mobile-login-btn');
+        const mobileUserInfo = document.getElementById('mobile-user-info');
+
+        if (this.currentUser) {
+            // User is logged in
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (userInfo) userInfo.style.display = 'flex';
+            if (usernameSpan) usernameSpan.textContent = this.currentUser.username;
+
+            // Show admin panel link for admins
+            if (adminPanelLink) {
+                adminPanelLink.style.display = this.currentUser.isAdmin ? 'block' : 'none';
+            }
+
+            // Mobile menu updates
+            if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
+            if (mobileUserInfo) mobileUserInfo.style.display = 'block';
+
+            console.log('UI updated: User logged in as', this.currentUser.username);
+        } else {
+            // User is not logged in
+            if (loginBtn) loginBtn.style.display = 'block';
+            if (userInfo) userInfo.style.display = 'none';
+
+            // Mobile menu updates
+            if (mobileLoginBtn) mobileLoginBtn.style.display = 'block';
+            if (mobileUserInfo) mobileUserInfo.style.display = 'none';
+
+            console.log('UI updated: User not logged in');
+        }
+    }
+
+    setButtonLoading(button, isLoading) {
+        if (!button) return;
+
+        if (isLoading) {
+            button.disabled = true;
+            button.classList.add('loading');
+            const originalText = button.querySelector('.btn-text');
+            if (originalText) {
+                originalText.style.opacity = '0';
+            }
+        } else {
+            button.disabled = false;
+            button.classList.remove('loading');
+            const originalText = button.querySelector('.btn-text');
+            if (originalText) {
+                originalText.style.opacity = '1';
+            }
+        }
+    }
+
+    showNotification(message, type = 'info') {
+        if (window.flowerShop && window.flowerShop.showNotification) {
+            window.flowerShop.showNotification(message, type);
+        } else {
+            alert(message); // Fallback
+        }
+    }
+
+    // Public methods
+    isAuthenticated() {
+        return this.currentUser !== null;
+    }
+
+    isAdmin() {
+        return this.currentUser && this.currentUser.isAdmin;
+    }
+
+    getCurrentUser() {
+        return this.currentUser;
     }
 }
 
+// Initialize auth manager when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.authManager = new AuthManager();
 });
