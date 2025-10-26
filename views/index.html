@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Shop - Beautiful Flowers for Every Occasion</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <div class="logo">🌸 Flower Shop</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/catalog">Catalog</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="/cart" class="cart-link">
+                    Cart (<span id="cart-count" class="cart-count">0</span>)
+                </a>
+                <div id="user-info" style="display: none;">
+                    <span>Hello, <span id="username"></span></span>
+                    <button id="logout-btn" class="btn btn-outline">Logout</button>
+                    <a href="/admin" id="admin-panel-link" style="display: none;" class="btn btn-outline">Admin</a>
+                </div>
+                <a href="/login" id="login-btn" class="btn btn-primary">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Beautiful Flowers for Every Occasion</h1>
+                <p>Discover our exquisite collection of fresh flowers, perfect for any moment that matters.</p>
+                <a href="/catalog" class="btn btn-success btn-lg">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2>Featured Flowers</h2>
+            <div id="featured-products-grid" class="products-grid">
+                <!-- Featured products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="container">
+            <h2>Shop by Category</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <img src="/images/roses.jpg" alt="Roses">
+                    <h3>Roses</h3>
+                    <p>Classic and romantic</p>
+                </div>
+                <div class="category-card">
+                    <img src="/images/tulips.jpg" alt="Tulips">
+                    <h3>Tulips</h3>
+                    <p>Colorful and cheerful</p>
+                </div>
+                <div class="category-card">
+                    <img src="/images/lilies.jpg" alt="Lilies">
+                    <h3>Lilies</h3>
+                    <p>Elegant and fragrant</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Flower Shop</h3>
+                    <p>Making every occasion special with beautiful flowers.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/catalog">Catalog</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>Email: info@flowershop.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Flower Shop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/cart.js"></script>
+    <script src="/js/products.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script>
+        // Load featured products on home page
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/api/products?inStock=true&limit=4');
+                const data = await response.json();
+
+                if (data.success) {
+                    const grid = document.getElementById('featured-products-grid');
+                    if (grid && data.data.length > 0) {
+                        grid.innerHTML = data.data.map(product => `
+                            <div class="product-card">
+                                <img src="${product.image_url || '/images/placeholder.jpg'}"
+                                     alt="${product.name}"
+                                     class="product-image">
+                                <div class="product-info">
+                                    <h3>${product.name}</h3>
+                                    <p class="product-price">$${product.price}</p>
+                                    <button class="btn btn-primary add-to-cart"
+                                            data-id="${product.id}"
+                                            data-name="${product.name}"
+                                            data-price="${product.price}">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load featured products:', error);
+            }
+        });
+    </script>
+</body>
+</html>

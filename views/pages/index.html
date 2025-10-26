@@ -1,0 +1,194 @@
+<!-- Include header -->
+<%- include('../partials/header', {
+    pageTitle: 'Beautiful Flowers for Every Occasion',
+    pageDescription: 'Discover our exquisite collection of fresh flowers, perfect for any moment that matters. Same-day delivery available.',
+    canonicalUrl: '/',
+    currentPage: 'home'
+}) %>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Beautiful Flowers for Every Occasion</h1>
+                        <p class="hero-description">
+                            Discover our exquisite collection of fresh flowers, perfect for any moment that matters.
+                            Same-day delivery available.
+                        </p>
+                        <div class="hero-actions">
+                            <a href="/catalog" class="btn btn-primary btn-lg">Shop Now</a>
+                            <a href="/about" class="btn btn-outline btn-lg">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <img src="/images/hero-flower.jpg" alt="Beautiful flower bouquet" loading="eager">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Free Delivery</h3>
+                    <p>Free same-day delivery on orders over $50</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌸</div>
+                    <h3>Fresh Flowers</h3>
+                    <p>Hand-picked fresh flowers daily from local growers</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💝</div>
+                    <h3>Custom Arrangements</h3>
+                    <p>Custom bouquets tailored to your special occasion</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📞</div>
+                    <h3>Expert Support</h3>
+                    <p>Floral experts available to help you choose the perfect arrangement</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Flowers</h2>
+                <p>Our most popular arrangements</p>
+                <a href="/catalog" class="btn btn-outline">View All Products</a>
+            </div>
+            <div id="featured-products-grid" class="products-grid">
+                <!-- Products loaded by JavaScript -->
+                <div class="loading-products">
+                    <div class="loading-spinner"></div>
+                    <p>Loading featured products...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories section-padding bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Shop by Category</h2>
+                <p>Find the perfect flowers for any occasion</p>
+            </div>
+            <div class="categories-grid">
+                <a href="/catalog?category=Roses" class="category-card">
+                    <div class="category-image">
+                        <img src="/images/category-roses.jpg" alt="Roses" loading="lazy">
+                    </div>
+                    <div class="category-content">
+                        <h3>Roses</h3>
+                        <p>Classic and romantic</p>
+                        <span class="category-link">Shop Roses →</span>
+                    </div>
+                </a>
+                <a href="/catalog?category=Tulips" class="category-card">
+                    <div class="category-image">
+                        <img src="/images/category-tulips.jpg" alt="Tulips" loading="lazy">
+                    </div>
+                    <div class="category-content">
+                        <h3>Tulips</h3>
+                        <p>Colorful and cheerful</p>
+                        <span class="category-link">Shop Tulips →</span>
+                    </div>
+                </a>
+                <a href="/catalog?category=Lilies" class="category-card">
+                    <div class="category-image">
+                        <img src="/images/category-lilies.jpg" alt="Lilies" loading="lazy">
+                    </div>
+                    <div class="category-content">
+                        <h3>Lilies</h3>
+                        <p>Elegant and fragrant</p>
+                        <span class="category-link">Shop Lilies →</span>
+                    </div>
+                </a>
+                <a href="/catalog?category=Seasonal" class="category-card">
+                    <div class="category-image">
+                        <img src="/images/category-seasonal.jpg" alt="Seasonal Flowers" loading="lazy">
+                    </div>
+                    <div class="category-content">
+                        <h3>Seasonal</h3>
+                        <p>Fresh seasonal selections</p>
+                        <span class="category-link">Shop Seasonal →</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Customers Say</h2>
+                <p>Don't just take our word for it</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The flowers were absolutely stunning! Fresh, beautiful, and delivered right on time for my anniversary. My wife loved them!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JD</div>
+                        <div class="author-info">
+                            <strong>John D.</strong>
+                            <span>New York</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"I order flowers for my office weekly and Flower Shop never disappoints. The arrangements are always fresh and last much longer than from other shops."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SM</div>
+                        <div class="author-info">
+                            <strong>Sarah M.</strong>
+                            <span>Chicago</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The custom arrangement I ordered for my mother's birthday was perfect! The florist really listened to what I wanted and created something beautiful."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MR</div>
+                        <div class="author-info">
+                            <strong>Michael R.</strong>
+                            <span>Los Angeles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Brighten Someone's Day?</h2>
+                <p>Browse our collection and find the perfect flowers for any occasion</p>
+                <div class="cta-actions">
+                    <a href="/catalog" class="btn btn-primary btn-lg">Shop Collection</a>
+                    <a href="/contact" class="btn btn-outline btn-lg">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Include footer -->
+<%- include('../partials/footer') %>

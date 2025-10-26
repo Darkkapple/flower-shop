@@ -1,0 +1,135 @@
+<!-- Include header -->
+<%- include('../partials/header', {
+    pageTitle: 'Shopping Cart',
+    pageDescription: 'Review your flower selections and proceed to checkout.',
+    canonicalUrl: '/cart',
+    currentPage: 'cart'
+}) %>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1>Shopping Cart</h1>
+                <p>Review your items and proceed to checkout</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="cart-section section-padding">
+        <div class="container">
+            <div class="cart-layout">
+                <!-- Cart Items -->
+                <div class="cart-items-section">
+                    <div class="section-header">
+                        <h2>Your Items (<span id="cart-items-count">0</span>)</h2>
+                    </div>
+
+                    <!-- Empty Cart Message -->
+                    <div id="empty-cart-message" class="empty-cart-message">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3>Your cart is empty</h3>
+                        <p>Browse our collection and add some beautiful flowers to your cart!</p>
+                        <a href="/catalog" class="btn btn-primary">Start Shopping</a>
+                    </div>
+
+                    <!-- Cart Items Container -->
+                    <div id="cart-items" class="cart-items" style="display: none;">
+                        <!-- Cart items loaded by JavaScript -->
+                    </div>
+
+                    <!-- Cart Actions -->
+                    <div class="cart-actions" id="cart-actions" style="display: none;">
+                        <button id="clear-cart-btn" class="btn btn-outline">Clear Cart</button>
+                        <a href="/catalog" class="btn btn-outline">Continue Shopping</a>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary-section">
+                    <div class="cart-summary-card">
+                        <h3>Order Summary</h3>
+
+                        <div class="summary-details" id="cart-summary">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span id="subtotal-amount">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Delivery:</span>
+                                <span id="delivery-fee">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Tax:</span>
+                                <span id="tax-amount">$0.00</span>
+                            </div>
+                            <div class="summary-divider"></div>
+                            <div class="summary-row total">
+                                <span>Total:</span>
+                                <span id="total-amount">$0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Notice -->
+                        <div class="delivery-notice">
+                            <div class="notice-icon">🚚</div>
+                            <div class="notice-content">
+                                <strong>Free Delivery</strong>
+                                <p>On orders over $50</p>
+                            </div>
+                        </div>
+
+                        <!-- Checkout Button -->
+                        <button id="checkout-btn" class="btn btn-primary btn-lg checkout-btn">
+                            Proceed to Checkout
+                        </button>
+
+                        <!-- Security Notice -->
+                        <div class="security-notice">
+                            <div class="security-icon">🔒</div>
+                            <span>Secure checkout · SSL encrypted</span>
+                        </div>
+                    </div>
+
+                    <!-- Promo Code -->
+                    <div class="promo-code-card">
+                        <h4>Promo Code</h4>
+                        <div class="promo-form">
+                            <input type="text"
+                                   id="promo-code-input"
+                                   placeholder="Enter code"
+                                   class="promo-input">
+                            <button id="apply-promo-btn" class="btn btn-outline">Apply</button>
+                        </div>
+                        <div id="promo-message" class="promo-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recently Viewed -->
+    <section class="recently-viewed section-padding bg-light" style="display: none;" id="recently-viewed">
+        <div class="container">
+            <div class="section-header">
+                <h2>You Might Also Like</h2>
+            </div>
+            <div id="related-products" class="products-grid">
+                <!-- Related products loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+<!-- Include footer -->
+<%- include('../partials/footer') %>
+
+<script>
+    // Cart page specific initialization
+    document.addEventListener('DOMContentLoaded', () => {
+        // Load cart data when page loads
+        if (window.cartManager) {
+            window.cartManager.loadCart();
+        }
+    });
+</script>

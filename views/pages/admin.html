@@ -1,0 +1,347 @@
+<!-- Include header -->
+<%- include('../partials/header', {
+    pageTitle: 'Admin Panel',
+    pageDescription: 'Flower Shop administration panel for managing products, orders, and users.',
+    canonicalUrl: '/admin',
+    currentPage: 'admin'
+}) %>
+
+    <!-- Admin Header -->
+    <section class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <h1>Admin Panel</h1>
+                <p>Manage your flower shop operations</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Navigation -->
+    <section class="admin-nav">
+        <div class="container">
+            <div class="admin-tabs" id="admin-tabs">
+                <button class="admin-tab active" data-tab="dashboard">Dashboard</button>
+                <button class="admin-tab" data-tab="products">Products</button>
+                <button class="admin-tab" data-tab="orders">Orders</button>
+                <button class="admin-tab" data-tab="users">Users</button>
+                <button class="admin-tab" data-tab="categories">Categories</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Content -->
+    <section class="admin-content section-padding">
+        <div class="container">
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="admin-tab-content active">
+                <div class="admin-stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <h3 id="total-revenue">$0.00</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-info">
+                            <h3 id="total-orders">0</h3>
+                            <p>Total Orders</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌸</div>
+                        <div class="stat-info">
+                            <h3 id="total-products">0</h3>
+                            <p>Total Products</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="total-users">0</h3>
+                            <p>Total Users</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>Recent Orders</h2>
+                        <a href="/admin?tab=orders" class="btn btn-outline">View All</a>
+                    </div>
+                    <div id="recent-orders" class="admin-table-container">
+                        <p>Loading recent orders...</p>
+                    </div>
+                </div>
+
+                <!-- Low Stock Products -->
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>Low Stock Alert</h2>
+                        <a href="/admin?tab=products" class="btn btn-outline">Manage Products</a>
+                    </div>
+                    <div id="low-stock-products" class="admin-table-container">
+                        <p>Loading stock information...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="products-tab" class="admin-tab-content">
+                <div class="admin-section-header">
+                    <h2>Product Management</h2>
+                    <button id="add-product-btn" class="btn btn-primary">Add New Product</button>
+                </div>
+
+                <!-- Products Table -->
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-products-table">
+                            <tr>
+                                <td colspan="8" class="text-center">Loading products...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="admin-tab-content">
+                <div class="admin-section-header">
+                    <h2>Order Management</h2>
+                </div>
+
+                <!-- Orders Table -->
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Items</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-orders-table">
+                            <tr>
+                                <td colspan="7" class="text-center">Loading orders...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users-tab" class="admin-tab-content">
+                <div class="admin-section-header">
+                    <h2>User Management</h2>
+                </div>
+
+                <!-- Users Table -->
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Orders</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-table">
+                            <tr>
+                                <td colspan="7" class="text-center">Loading users...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Categories Tab -->
+            <div id="categories-tab" class="admin-tab-content">
+                <div class="admin-section-header">
+                    <h2>Category Management</h2>
+                    <button id="add-category-btn" class="btn btn-primary">Add Category</button>
+                </div>
+
+                <!-- Categories Table -->
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Products</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-categories-table">
+                            <tr>
+                                <td colspan="5" class="text-center">Loading categories...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="product-form-title">Add New Product</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="product-form" class="modal-form">
+                <input type="hidden" id="product-id" name="id">
+
+                <div class="form-group">
+                    <label for="product-name">Product Name</label>
+                    <input type="text" id="product-name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-description">Description</label>
+                    <textarea id="product-description" name="description" rows="3"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-price">Price ($)</label>
+                        <input type="number" id="product-price" name="price" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Category</label>
+                        <select id="product-category" name="category_id" required>
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-stock">Stock Quantity</label>
+                        <input type="number" id="product-stock" name="stock_quantity" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Image URL</label>
+                        <input type="url" id="product-image" name="image_url" placeholder="https://example.com/image.jpg">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="product-available" name="is_available" checked>
+                        <label for="product-available">Product is available</label>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline modal-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!-- Include footer -->
+<%- include('../partials/footer') %>
+
+<script>
+    // Admin page specific initialization
+    document.addEventListener('DOMContentLoaded', () => {
+        // Check admin access
+        if (!window.authManager || !window.authManager.isAdmin()) {
+            window.location.href = '/login?returnUrl=' + encodeURIComponent('/admin');
+            return;
+        }
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.admin-tab');
+        const tabContents = document.querySelectorAll('.admin-tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+
+                // Load tab data
+                loadTabData(tabName);
+            });
+        });
+
+        // Load initial tab data
+        loadTabData('dashboard');
+
+        function loadTabData(tabName) {
+            switch (tabName) {
+                case 'dashboard':
+                    loadDashboardData();
+                    break;
+                case 'products':
+                    if (window.productManager) {
+                        window.productManager.loadProducts();
+                    }
+                    break;
+                case 'orders':
+                    loadOrdersData();
+                    break;
+                case 'users':
+                    loadUsersData();
+                    break;
+                case 'categories':
+                    loadCategoriesData();
+                    break;
+            }
+        }
+
+        async function loadDashboardData() {
+            try {
+                // Load dashboard statistics
+                const [productsRes, ordersRes, usersRes] = await Promise.all([
+                    fetch('/api/products'),
+                    fetch('/api/orders'),
+                    fetch('/api/users') // You would need to create this endpoint
+                ]);
+
+                // Update stats (simplified example)
+                document.getElementById('total-products').textContent = '25';
+                document.getElementById('total-orders').textContent = '156';
+                document.getElementById('total-revenue').textContent = '$3,450.00';
+                document.getElementById('total-users').textContent = '89';
+            } catch (error) {
+                console.error('Failed to load dashboard data:', error);
+            }
+        }
+
+        // Add other data loading functions here...
+    });
+</script>
