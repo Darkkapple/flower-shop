@@ -28,6 +28,12 @@
     margin-bottom: 0.5rem;
 }
 
+.auth-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
 .auth-subtitle {
     color: #666;
     margin-bottom: 2rem;
@@ -59,10 +65,6 @@
     box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
-.auth-form input.error {
-    border-color: var(--danger-color);
-}
-
 .auth-btn {
     width: 100%;
     padding: 0.75rem;
@@ -78,11 +80,6 @@
 
 .auth-btn:hover {
     background: #357abd;
-}
-
-.auth-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
 }
 
 .auth-footer {
@@ -102,58 +99,11 @@
     text-decoration: underline;
 }
 
-.error-message {
-    color: var(--danger-color);
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    display: block;
-}
-
-.success-message {
-    color: var(--accent-color);
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    display: block;
-}
-
-.password-strength {
-    margin-top: 0.5rem;
-}
-
-.strength-bar {
-    height: 4px;
-    background: #e1e5e9;
-    border-radius: 2px;
-    margin-top: 0.25rem;
-    overflow: hidden;
-}
-
-.strength-fill {
-    height: 100%;
-    transition: width 0.3s, background-color 0.3s;
-}
-
-.strength-weak {
-    background: var(--danger-color);
-    width: 33%;
-}
-
-.strength-medium {
-    background: #ffc107;
-    width: 66%;
-}
-
-.strength-strong {
-    background: var(--accent-color);
-    width: 100%;
-}
-
-/* Responsive design */
 @media (max-width: 480px) {
     .auth-container {
         padding: 1rem;
     }
-
+    
     .auth-card {
         padding: 2rem;
     }
