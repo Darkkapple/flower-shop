@@ -24,9 +24,91 @@ class FlowerShopApp {
         console.log('🌸 Flowershop успешно инициализирован');
     }
 
-    // ... остальные методы класса остаются без изменений ...
+    initializeModules() {
+        // Initialize based on current page
+        switch (this.currentPage) {
+            case 'home':
+                this.initHomePage();
+                break;
+            case 'catalog':
+                this.initCatalogPage();
+                break;
+            case 'cart':
+                this.initCartPage();
+                break;
+            case 'login':
+            case 'register':
+                this.initAuthPage();
+                break;
+            default:
+                this.initCommonFeatures();
+        }
 
-    async loadFeaturedProducts() {
+        // Always initialize common features
+        this.initCommonFeatures();
+    }
+
+    initCommonFeatures() {
+        this.updateCartCount();
+        this.setupNotifications();
+        this.setupLoadingStates();
+    }
+
+    initHomePage() {
+        console.log('Initializing home page...');
+        this.loadFeaturedProducts();
+        this.setupHeroAnimations();
+    }
+
+    initCatalogPage() {
+        console.log('Initializing catalog page...');
+        // Catalog functionality will be handled by ProductManager
+    }
+
+    initCartPage() {
+        console.log('Initializing cart page...');
+        // Cart functionality will be handled by CartManager
+    }
+
+    initAuthPage() {
+        console.log('Initializing auth page...');
+        // Auth functionality will be handled by AuthManager
+    }
+
+    bindGlobalEvents() {
+        // Global click handler for dynamic content
+        document.addEventListener('click', (e) => {
+            this.handleGlobalClick(e);
+        });
+
+        // Add to cart buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart') || e.target.closest('.add-to-cart')) {
+                const button = e.target.classList.contains('add-to-cart') ? e.target : e.target.closest('.add-to-cart');
+                this.addToCart(button.dataset);
+            }
+        });
+
+        // Online/offline detection
+        window.addEventListener('online', () => {
+            this.showNotification('Connection restored', 'success');
+        });
+
+        window.addEventListener('offline', () => {
+            this.showNotification('You are offline', 'warning');
+        });
+    }
+
+    handleGlobalClick(e) {
+        const target = e.target;
+
+        // Handle back to top button
+        if (target.classList.contains('back-to-top')) {
+            this.scrollToTop();
+        }
+    }
+
+     async loadFeaturedProducts() {
         try {
             console.log('Загрузка популярных товаров...');
             const response = await fetch('/api/products');
@@ -184,7 +266,23 @@ class FlowerShopApp {
         }
     }
 
-    // ... остальные методы класса ...
+    loadCart() {
+        try {
+            const savedCart = localStorage.getItem('flowerShopCart');
+            return savedCart ? JSON.parse(savedCart) : [];
+        } catch (error) {
+            console.error('Error loading cart from localStorage:', error);
+            return [];
+        }
+    }
+
+    saveCart() {
+        try {
+            localStorage.setItem('flowerShopCart', JSON.stringify(this.cart));
+        } catch (error) {
+            console.error('Error saving cart to localStorage:', error);
+        }
+    }
 
     updateCartCount() {
         const cartCountElements = document.querySelectorAll('.cart-count');
@@ -200,6 +298,126 @@ class FlowerShopApp {
         console.log(`Корзина обновлена: ${totalItems} товаров`);
     }
 
+    setupHeroAnimations() {
+        // Simple fade-in animation for hero elements
+        const heroElements = document.querySelectorAll('.hero-title, .hero-description, .hero-actions');
+        heroElements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                el.style.transition = 'all 0.6s ease';
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    }
+
+    setupNotifications() {
+        // Create notifications container if it doesn't exist
+        if (!document.getElementById('notifications-container')) {
+            const container = document.createElement('div');
+            container.id = 'notifications-container';
+            container.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                max-width: 400px;
+            `;
+            document.body.appendChild(container);
+        }
+    }
+
+    showNotification(message, type = 'info', duration = 4000) {
+        const container = document.getElementById('notifications-container');
+        if (!container) return;
+
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+
+        const typeStyles = {
+            success: { background: '#d4edda', color: '#155724', borderColor: '#28a745' },
+            error: { background: '#f8d7da', color: '#721c24', borderColor: '#dc3545' },
+            warning: { background: '#fff3cd', color: '#856404', borderColor: '#ffc107' },
+            info: { background: '#d1ecf1', color: '#0c5460', borderColor: '#17a2b8' }
+        };
+
+        const style = typeStyles[type] || typeStyles.info;
+
+        notification.style.cssText = `
+            background: ${style.background};
+            color: ${style.color};
+            border-left: 4px solid ${style.borderColor};
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 0.5rem;
+            animation: slideInRight 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-width: 300px;
+        `;
+
+        notification.innerHTML = `
+            <span>${this.escapeHtml(message)}</span>
+            <button class="notification-close" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:inherit;margin-left:1rem;">&times;</button>
+        `;
+
+        container.appendChild(notification);
+
+        // Auto remove after duration
+        const autoRemove = setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, duration);
+
+        // Close button
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => {
+            clearTimeout(autoRemove);
+            notification.style.animation = 'slideInRight 0.3s ease reverse';
+            setTimeout(() => notification.remove(), 300);
+        });
+
+        return notification;
+    }
+
+    setupLoadingStates() {
+        // Add loading state to buttons when forms are submitted
+        document.addEventListener('submit', (e) => {
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            if (submitButton) {
+                this.setButtonLoading(submitButton, true);
+
+                // Reset after form processing (you might want to do this in your form handlers)
+                setTimeout(() => {
+                    this.setButtonLoading(submitButton, false);
+                }, 3000);
+            }
+        });
+    }
+
+    setButtonLoading(button, isLoading) {
+        if (isLoading) {
+            button.disabled = true;
+            button.setAttribute('data-original-text', button.innerHTML);
+            button.innerHTML = `
+                <div class="btn-spinner" style="width:16px;height:16px;border:2px solid transparent;border-top:2px solid currentColor;border-radius:50%;animation:spin 1s linear infinite;margin-right:8px;"></div>
+                Loading...
+            `;
+        } else {
+            button.disabled = false;
+            const originalText = button.getAttribute('data-original-text');
+            if (originalText) {
+                button.innerHTML = originalText;
+            }
+        }
+    }
+
     setupErrorHandling() {
         // Global error handler
         window.addEventListener('error', (e) => {
@@ -213,6 +431,43 @@ class FlowerShopApp {
             this.showNotification('Что-то пошло не так. Пожалуйста, попробуйте еще раз.', 'error');
             e.preventDefault();
         });
+    }
+
+    getCurrentPage() {
+        const path = window.location.pathname;
+        if (path === '/') return 'home';
+        if (path.includes('/catalog')) return 'catalog';
+        if (path.includes('/cart')) return 'cart';
+        if (path.includes('/login')) return 'login';
+        if (path.includes('/register')) return 'register';
+        if (path.includes('/admin')) return 'admin';
+        return 'other';
+    }
+
+    scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    escapeHtml(unsafe) {
+        if (typeof unsafe !== 'string') return unsafe;
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // Utility method to check if API is available
+    async checkAPIHealth() {
+        try {
+            const response = await fetch('/api/health');
+            const data = await response.json();
+            return data.status === 'OK';
+        } catch (error) {
+            console.error('API health check failed:', error);
+            return false;
+        }
     }
 }
 
