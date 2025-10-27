@@ -137,9 +137,9 @@ app.get('/api/products/categories/all', (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'OK',
-        message: 'API Flowershop работает',
+    res.json({ 
+        status: 'OK', 
+        message: 'API Цветочного Магазина работает',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV || 'development'
     });
@@ -152,6 +152,6 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🌸 Flowershop запущен на порту ${PORT}`);
+    console.log(`🌸 Цветочный Магазин запущен на порту ${PORT}`);
     console.log(`🌍 Окружение: ${process.env.NODE_ENV || 'development'}`);
 });
