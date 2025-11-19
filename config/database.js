@@ -12,7 +12,7 @@ const mockDatabase = {
             email: 'admin@flowershop.com',
             password: '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/Lewd.BRj2uM7SNqje', // admin123
             is_admin: true,
-            created_at: new Date('2024-01-01')
+            created_at: new Date('1001-10-01')
         }
     ],
     products: [
