@@ -64,7 +64,7 @@ app.get('/api/products', (req, res) => {
             name: "Фикус", //Название
             description: "", //Описание
             price: 300, //Цена
-            category_id: 2;4;7;10;14,
+            category_id: [2,4,7,10,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -75,7 +75,7 @@ app.get('/api/products', (req, res) => {
             name: "Замиокулькас", //Название
             description: "", //Описание
             price: 350, //Цена
-            category_id: 1;6;7;13,
+            category_id: [1,6,7,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -86,7 +86,7 @@ app.get('/api/products', (req, res) => {
             name: "Финиковая пальма", //Название
             description: "", //Описание
             price: 500, //Цена
-            category_id: 2;4;11,
+            category_id: [2,4,11],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -97,7 +97,7 @@ app.get('/api/products', (req, res) => {
             name: "Монстера", //Название
             description: "", //Описание
             price: 1000, //Цена
-            category_id: 2;4;7;15,
+            category_id: [2,4,7,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -108,7 +108,7 @@ app.get('/api/products', (req, res) => {
             name: "Аглаонема", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 1;5;7;14,
+            category_id: [1,5,7,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -119,7 +119,7 @@ app.get('/api/products', (req, res) => {
             name: "Сансевиерия", //Название
             description: "", //Описание
             price: 350, //Цена
-            category_id: 1;6;7;12;13,
+            category_id: [1,6,7,12,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -130,7 +130,7 @@ app.get('/api/products', (req, res) => {
             name: "Юкка", //Название
             description: "", //Описание
             price: 400, //Цена
-            category_id: 2;4;10,
+            category_id: [2,4,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -141,7 +141,7 @@ app.get('/api/products', (req, res) => {
             name: "Спатифиллум", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 2;5;8;12;14,
+            category_id: [2,5,8,12,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -152,7 +152,7 @@ app.get('/api/products', (req, res) => {
             name: "Фикус бенджамина", //Название
             description: "", //Описание
             price: 250, //Цена
-            category_id: 2;4;7;10;14,
+            category_id: [2,4,7,10,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -163,7 +163,7 @@ app.get('/api/products', (req, res) => {
             name: "Антуриум", //Название
             description: "", //Описание
             price: 600, //Цена
-            category_id: 2;5;7;15,
+            category_id: [2,5,7,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -174,7 +174,7 @@ app.get('/api/products', (req, res) => {
             name: "Хлорофитум", //Название
             description: "", //Описание
             price: 350, //Цена
-            category_id: 1;6;14,
+            category_id: [1,6,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -185,7 +185,7 @@ app.get('/api/products', (req, res) => {
             name: "Алоказия", //Название
             description: "", //Описание
             price: 600, //Цена
-            category_id: 3;4;7;12;15,
+            category_id: [3,4,7,12,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -196,7 +196,7 @@ app.get('/api/products', (req, res) => {
             name: "Хамедорея", //Название
             description: "", //Описание
             price: 350, //Цена
-            category_id: 2;5;11;14,
+            category_id: [2,5,11,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -207,7 +207,7 @@ app.get('/api/products', (req, res) => {
             name: "Кротон", //Название
             description: "", //Описание
             price: 550, //Цена
-            category_id: 3;4;7;10,
+            category_id: [3,4,7,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -218,7 +218,7 @@ app.get('/api/products', (req, res) => {
             name: "Филодендрон", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 2;6;9;15,
+            category_id: [2,6,9,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -229,7 +229,7 @@ app.get('/api/products', (req, res) => {
             name: "Орхидея", //Название
             description: "", //Описание
             price: 750, //Цена
-            category_id: 2;5;8,
+            category_id: [2,5,8],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -240,7 +240,7 @@ app.get('/api/products', (req, res) => {
             name: "Папоротник", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 3;5;15,
+            category_id: [3,5,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -251,7 +251,7 @@ app.get('/api/products', (req, res) => {
             name: "Калатея", //Название
             description: "", //Описание
             price: 550, //Цена
-            category_id: 3;5,
+            category_id: [3,5],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -262,7 +262,7 @@ app.get('/api/products', (req, res) => {
             name: "Шефлера", //Название
             description: "", //Описание
             price: 650, //Цена
-            category_id: 1;5;7;10,
+            category_id: [1,5,7,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -273,7 +273,7 @@ app.get('/api/products', (req, res) => {
             name: "Стрелиция", //Название
             description: "", //Описание
             price: 1500, //Цена
-            category_id: 3;4;8,
+            category_id: [3,4,8],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -284,7 +284,7 @@ app.get('/api/products', (req, res) => {
             name: "Эпипремнум", //Название
             description: "", //Описание
             price: 400, //Цена
-            category_id: 1;6;9;14,
+            category_id: [1,6,9,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -295,7 +295,7 @@ app.get('/api/products', (req, res) => {
             name: "Бегония", //Название
             description: "", //Описание
             price: 250, //Цена
-            category_id: 2;5;12;15,
+            category_id: [2,5,12,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -306,7 +306,7 @@ app.get('/api/products', (req, res) => {
             name: "Фикус лирата", //Название
             description: "", //Описание
             price: 650, //Цена
-            category_id: 2;6;7;10,
+            category_id: [2,6,7,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -317,7 +317,7 @@ app.get('/api/products', (req, res) => {
             name: "Традесканция", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 1;6;9,
+            category_id: [1,6,9],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -328,7 +328,7 @@ app.get('/api/products', (req, res) => {
             name: "Сингониум", //Название
             description: "", //Описание
             price: 300, //Цена
-            category_id: 2;6;9;15,
+            category_id: [2,6,9,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -339,7 +339,7 @@ app.get('/api/products', (req, res) => {
             name: "Хойя", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 1;4;8;13,
+            category_id: [1,4,8,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -350,7 +350,7 @@ app.get('/api/products', (req, res) => {
             name: "Денежное дерево", //Название
             description: "", //Описание
             price: 550, //Цена
-            category_id: 1;4;13,
+            category_id: [1,4,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -361,7 +361,7 @@ app.get('/api/products', (req, res) => {
             name: "Сциндапсус", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 1;6;9;14,
+            category_id: [1,6,9,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -372,7 +372,7 @@ app.get('/api/products', (req, res) => {
             name: "Диффенбахия", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 2;5;7;14,
+            category_id: [2,5,7,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -383,7 +383,7 @@ app.get('/api/products', (req, res) => {
             name: "Кактус", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 1;4;13,
+            category_id: [1,4,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -394,7 +394,7 @@ app.get('/api/products', (req, res) => {
             name: "Суккуленты", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 1;4;13,
+            category_id: [1,4,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -405,7 +405,7 @@ app.get('/api/products', (req, res) => {
             name: "Гибискус", //Название
             description: "", //Описание
             price: 300, //Цена
-            category_id: 3;4;10,
+            category_id: [3,4,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -416,12 +416,12 @@ app.get('/api/products', (req, res) => {
             name: "Мирт", //Название
             description: "", //Описание
             price: 500, //Цена
-            category_id: 3;4;8;10,
+            category_id: [3,4,8,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
             created_at: new Date('2024-01-01')
-        },
+        }
         ]
     });
 });
@@ -444,7 +444,7 @@ app.get('/api/products/categories/all', (req, res) => {
         { id: 12, name: "Розеточные", description: "" },
         { id: 13, name: "Суккуленты", description: "" },
         { id: 14, name: "Растения-очистители воздуха", description: "" },
-        { id: 15, name: "Тропиканы", description: "" },
+        { id: 15, name: "Тропиканы", description: "" }
         ]
     });
 });
