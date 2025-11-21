@@ -21,7 +21,7 @@ const mockDatabase = {
             name: "Фикус", //Название
             description: "", //Описание
             price: 300, //Цена
-            category_id: 2;4;7;10;14,
+            category_ids: [2,4,7,10,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -32,7 +32,7 @@ const mockDatabase = {
             name: "Замиокулькас", //Название
             description: "", //Описание
             price: 350, //Цена
-            category_id: 1;6;7;13,
+            category_ids: [1,6,7,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -43,7 +43,7 @@ const mockDatabase = {
             name: "Финиковая пальма", //Название
             description: "", //Описание
             price: 500, //Цена
-            category_id: 2;4;11,
+            category_ids: [2,4,11],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -54,7 +54,7 @@ const mockDatabase = {
             name: "Монстера", //Название
             description: "", //Описание
             price: 1000, //Цена
-            category_id: 2;4;7;15,
+            category_ids: [2,4,7,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -65,7 +65,7 @@ const mockDatabase = {
             name: "Аглаонема", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 1;5;7;14,
+            category_ids: [1,5,7,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -76,7 +76,7 @@ const mockDatabase = {
             name: "Сансевиерия", //Название
             description: "", //Описание
             price: 350, //Цена
-            category_id: 1;6;7;12;13,
+            category_ids: [1,6,7,12,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -87,7 +87,7 @@ const mockDatabase = {
             name: "Юкка", //Название
             description: "", //Описание
             price: 400, //Цена
-            category_id: 2;4;10,
+            category_ids: [2,4,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -98,7 +98,7 @@ const mockDatabase = {
             name: "Спатифиллум", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 2;5;8;12;14,
+            category_ids: [2,5,8,12,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -109,7 +109,7 @@ const mockDatabase = {
             name: "Фикус бенджамина", //Название
             description: "", //Описание
             price: 250, //Цена
-            category_id: 2;4;7;10;14,
+            category_ids: [2,4,7,10,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -120,7 +120,7 @@ const mockDatabase = {
             name: "Антуриум", //Название
             description: "", //Описание
             price: 600, //Цена
-            category_id: 2;5;7;15,
+            category_ids: [2,5,7,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -131,7 +131,7 @@ const mockDatabase = {
             name: "Хлорофитум", //Название
             description: "", //Описание
             price: 350, //Цена
-            category_id: 1;6;14,
+            category_ids: [1,6,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -142,7 +142,7 @@ const mockDatabase = {
             name: "Алоказия", //Название
             description: "", //Описание
             price: 600, //Цена
-            category_id: 3;4;7;12;15,
+            category_ids: [3,4,7,12,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -153,7 +153,7 @@ const mockDatabase = {
             name: "Хамедорея", //Название
             description: "", //Описание
             price: 350, //Цена
-            category_id: 2;5;11;14,
+            category_ids: [2,5,11,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -164,7 +164,7 @@ const mockDatabase = {
             name: "Кротон", //Название
             description: "", //Описание
             price: 550, //Цена
-            category_id: 3;4;7;10,
+            category_ids: [3,4,7,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -175,7 +175,7 @@ const mockDatabase = {
             name: "Филодендрон", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 2;6;9;15,
+            category_ids: [2,6,9,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -186,7 +186,7 @@ const mockDatabase = {
             name: "Орхидея", //Название
             description: "", //Описание
             price: 750, //Цена
-            category_id: 2;5;8,
+            category_ids: [2,5,8],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -197,7 +197,7 @@ const mockDatabase = {
             name: "Папоротник", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 3;5;15,
+            category_ids: [3,5,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -208,7 +208,7 @@ const mockDatabase = {
             name: "Калатея", //Название
             description: "", //Описание
             price: 550, //Цена
-            category_id: 3;5,
+            category_ids: [3,5],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -219,7 +219,7 @@ const mockDatabase = {
             name: "Шефлера", //Название
             description: "", //Описание
             price: 650, //Цена
-            category_id: 1;5;7;10,
+            category_ids: [1,5,7,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -230,7 +230,7 @@ const mockDatabase = {
             name: "Стрелиция", //Название
             description: "", //Описание
             price: 1500, //Цена
-            category_id: 3;4;8,
+            category_ids: [3,4,8],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -241,7 +241,7 @@ const mockDatabase = {
             name: "Эпипремнум", //Название
             description: "", //Описание
             price: 400, //Цена
-            category_id: 1;6;9;14,
+            category_ids: [1,6,9,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -252,7 +252,7 @@ const mockDatabase = {
             name: "Бегония", //Название
             description: "", //Описание
             price: 250, //Цена
-            category_id: 2;5;12;15,
+            category_ids: [2,5,12,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -263,7 +263,7 @@ const mockDatabase = {
             name: "Фикус лирата", //Название
             description: "", //Описание
             price: 650, //Цена
-            category_id: 2;6;7;10,
+            category_ids: [2,6,7,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -274,7 +274,7 @@ const mockDatabase = {
             name: "Традесканция", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 1;6;9,
+            category_ids: [1,6,9],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -285,7 +285,7 @@ const mockDatabase = {
             name: "Сингониум", //Название
             description: "", //Описание
             price: 300, //Цена
-            category_id: 2;6;9;15,
+            category_ids: [2,6,9,15],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -296,7 +296,7 @@ const mockDatabase = {
             name: "Хойя", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 1;4;8;13,
+            category_ids: [1,4,8,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -307,7 +307,7 @@ const mockDatabase = {
             name: "Денежное дерево", //Название
             description: "", //Описание
             price: 550, //Цена
-            category_id: 1;4;13,
+            category_ids: [1,4,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -318,7 +318,7 @@ const mockDatabase = {
             name: "Сциндапсус", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 1;6;9;14,
+            category_ids: [1,6,9,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -329,7 +329,7 @@ const mockDatabase = {
             name: "Диффенбахия", //Название
             description: "", //Описание
             price: 450, //Цена
-            category_id: 2;5;7;14,
+            category_ids: [2,5,7,14],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -340,7 +340,7 @@ const mockDatabase = {
             name: "Кактус", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 1;4;13,
+            category_ids: [1,4,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -351,7 +351,7 @@ const mockDatabase = {
             name: "Суккуленты", //Название
             description: "", //Описание
             price: 200, //Цена
-            category_id: 1;4;13,
+            category_ids: [1,4,13],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -362,7 +362,7 @@ const mockDatabase = {
             name: "Гибискус", //Название
             description: "", //Описание
             price: 300, //Цена
-            category_id: 3;4;10,
+            category_ids: [3,4,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
@@ -373,12 +373,12 @@ const mockDatabase = {
             name: "Мирт", //Название
             description: "", //Описание
             price: 500, //Цена
-            category_id: 3;4;8;10,
+            category_ids: [3,4,8,10],
             image_url: "/images/", //путь к картинке
             stock_quantity: 50, //Кол-во на складе
             is_available: true, //Доступен да(true)/нет(false)
             created_at: new Date('2024-01-01')
-        },
+        }
     ],
     categories: [
         { id: 1, name: "Для начинающих", description: "" },
