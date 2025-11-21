@@ -1,5 +1,5 @@
 <!-- Include header -->
-<%- include('../partials/header', {
+<%- include('..views/partials/header.html', {
     pageTitle: 'Product Details',
     pageDescription: 'View detailed information about this beautiful flower arrangement.',
     canonicalUrl: '/product',
@@ -51,20 +51,20 @@
 
                     <!-- Product Price -->
                     <div class="product-price-section">
-                        <div class="current-price" id="current-price">$0.00</div>
+                        <div class="current-price" id="current-price"></div>
                         <div class="original-price" id="original-price" style="display: none;"></div>
                         <div class="discount-badge" id="discount-badge" style="display: none;"></div>
                     </div>
 
                     <!-- Product Description -->
                     <div class="product-description-section">
-                        <p id="product-description">Loading product description...</p>
+                        <p id="product-description">Загрузка описания продукта...</p>
                     </div>
 
                     <!-- Product Details -->
                     <div class="product-details-list">
                         <div class="detail-item">
-                            <span class="detail-label">Category:</span>
+                            <span class="detail-label">Категория:</span>
                             <span id="product-category" class="detail-value">-</span>
                         </div>
                         <div class="detail-item">
@@ -118,15 +118,15 @@
                         <div class="delivery-info">
                             <div class="info-item">
                                 <span class="info-icon">🚚</span>
-                                <span>Free delivery on orders over $50</span>
+                                <span>Бесплатная доставка от 5000₽</span>
                             </div>
                             <div class="info-item">
                                 <span class="info-icon">↩️</span>
-                                <span>30-day return policy</span>
+                                <span>политика возврата в течение 30 дней</span>
                             </div>
                             <div class="info-item">
                                 <span class="info-icon">💐</span>
-                                <span>Freshness guaranteed</span>
+                                <span>Гарантированная свежесть</span>
                             </div>
                         </div>
                     </div>

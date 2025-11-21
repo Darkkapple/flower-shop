@@ -1,4 +1,4 @@
--- Create database
+ы-- Create database
 CREATE DATABASE IF NOT EXISTS flower_shop;
 USE flower_shop;
 

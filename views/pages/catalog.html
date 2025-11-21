@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог цветов - Flowershop</title>
-    <meta name="description" content="Просмотрите нашу полную коллекцию свежих цветов, букетов и композиций для любого случая.">
+    <meta name="description" content="Просмотрите нашу полную коллекцию комнатных и уличных растений для любой обстановки.">
 
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/auth.css">
@@ -46,7 +46,7 @@
         <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">Каталог цветов</h1>
-                <p class="hero-description">Откройте нашу прекрасную коллекцию свежих цветов и композиций</p>
+                <p class="hero-description">Откройте нашу изысканную коллекцию растений, идеальных для любой обстановки. Доставка в течении недели.</p>
             </div>
         </div>
     </section>
@@ -64,10 +64,21 @@
                     <h3>Категория</h3>
                     <select id="category-filter" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                         <option value="">Все категории</option>
-                        <option value="Roses">Розы</option>
-                        <option value="Tulips">Тюльпаны</option>
-                        <option value="Lilies">Лилии</option>
-                        <option value="Seasonal">Сезонные</option>
+                        <option value="for_beginners">Для начинающих</option>
+                        <option value="for_the_experienced">Для опытных</option>
+                        <option value="moody">Капризные</option>
+                        <option value="bright_and_diffused_light">Яркий и рассеянный свет</option>
+                        <option value="partial_shade">Полутень</option>
+                        <option value="shadow">Тень</option>
+                        <option value="decorative_and_deciduous">Декоративно-лиственные</option>
+                        <option value="beautifully_blooming">Красивоцветущие</option>
+                        <option value="ampellae_and_creepers">Ампельные и лианы</option>
+                        <option value="trees_and_shrubs">Деревья и кустарники</option>
+                        <option value="palm_shaped">Пальмовидные</option>
+                        <option value="sockets">Розеточные</option>
+                        <option value="succulents">Суккуленты</option>
+                        <option value="plants_are_air_purifiers">Растения-очистители воздуха</option>
+                        <option value="tropical_that_love_humidity">Тропиканы</option>
                     </select>
                 </div>
 
@@ -75,6 +86,8 @@
                     <h3>Ценовой диапазон</h3>
                     <div style="display: flex; gap: 0.5rem;">
                         <input type="number" id="min-price" placeholder="Мин" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
                         <input type="number" id="max-price" placeholder="Макс" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                     </div>
                 </div>

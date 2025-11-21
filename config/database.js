@@ -18,32 +18,384 @@ const mockDatabase = {
     products: [
         {
             id: 1,
-            name: "Red Roses Bouquet",
-            description: "12 beautiful red roses in an elegant arrangement",
-            price: 25.99,
-            category_id: 1,
-            image_url: "/images/rose-bouquet.jpg",
-            stock_quantity: 50,
-            is_available: true,
+            name: "Фикус", //Название
+            description: "", //Описание
+            price: 300, //Цена
+            category_id: 2;4;7;10;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+         {
+            id: 2,
+            name: "Замиокулькас", //Название
+            description: "", //Описание
+            price: 350, //Цена
+            category_id: 1;6;7;13,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
             created_at: new Date('2024-01-01')
         },
         {
-            id: 2,
-            name: "Pink Tulips",
-            description: "Fresh pink tulips for spring occasions",
-            price: 19.99,
-            category_id: 2,
-            image_url: "/images/tulips.jpg",
-            stock_quantity: 30,
-            is_available: true,
+            id: 3,
+            name: "Финиковая пальма", //Название
+            description: "", //Описание
+            price: 500, //Цена
+            category_id: 2;4;11,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
             created_at: new Date('2024-01-01')
-        }
+        },
+        {
+            id: 4,
+            name: "Монстера", //Название
+            description: "", //Описание
+            price: 1000, //Цена
+            category_id: 2;4;7;15,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 5,
+            name: "Аглаонема", //Название
+            description: "", //Описание
+            price: 450, //Цена
+            category_id: 1;5;7;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 6,
+            name: "Сансевиерия", //Название
+            description: "", //Описание
+            price: 350, //Цена
+            category_id: 1;6;7;12;13,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 7,
+            name: "Юкка", //Название
+            description: "", //Описание
+            price: 400, //Цена
+            category_id: 2;4;10,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 8,
+            name: "Спатифиллум", //Название
+            description: "", //Описание
+            price: 200, //Цена
+            category_id: 2;5;8;12;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 9,
+            name: "Фикус бенджамина", //Название
+            description: "", //Описание
+            price: 250, //Цена
+            category_id: 2;4;7;10;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 10,
+            name: "Антуриум", //Название
+            description: "", //Описание
+            price: 600, //Цена
+            category_id: 2;5;7;15,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 11,
+            name: "Хлорофитум", //Название
+            description: "", //Описание
+            price: 350, //Цена
+            category_id: 1;6;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 12,
+            name: "Алоказия", //Название
+            description: "", //Описание
+            price: 600, //Цена
+            category_id: 3;4;7;12;15,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 13,
+            name: "Хамедорея", //Название
+            description: "", //Описание
+            price: 350, //Цена
+            category_id: 2;5;11;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 14,
+            name: "Кротон", //Название
+            description: "", //Описание
+            price: 550, //Цена
+            category_id: 3;4;7;10,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 15,
+            name: "Филодендрон", //Название
+            description: "", //Описание
+            price: 450, //Цена
+            category_id: 2;6;9;15,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 16,
+            name: "Орхидея", //Название
+            description: "", //Описание
+            price: 750, //Цена
+            category_id: 2;5;8,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 17,
+            name: "Папоротник", //Название
+            description: "", //Описание
+            price: 450, //Цена
+            category_id: 3;5;15,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 18,
+            name: "Калатея", //Название
+            description: "", //Описание
+            price: 550, //Цена
+            category_id: 3;5,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 19,
+            name: "Шефлера", //Название
+            description: "", //Описание
+            price: 650, //Цена
+            category_id: 1;5;7;10,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 20,
+            name: "Стрелиция", //Название
+            description: "", //Описание
+            price: 1500, //Цена
+            category_id: 3;4;8,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 21,
+            name: "Эпипремнум", //Название
+            description: "", //Описание
+            price: 400, //Цена
+            category_id: 1;6;9;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 22,
+            name: "Бегония", //Название
+            description: "", //Описание
+            price: 250, //Цена
+            category_id: 2;5;12;15,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 23,
+            name: "Фикус лирата", //Название
+            description: "", //Описание
+            price: 650, //Цена
+            category_id: 2;6;7;10,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 24,
+            name: "Традесканция", //Название
+            description: "", //Описание
+            price: 200, //Цена
+            category_id: 1;6;9,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 25,
+            name: "Сингониум", //Название
+            description: "", //Описание
+            price: 300, //Цена
+            category_id: 2;6;9;15,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 26,
+            name: "Хойя", //Название
+            description: "", //Описание
+            price: 450, //Цена
+            category_id: 1;4;8;13,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 27,
+            name: "Денежное дерево", //Название
+            description: "", //Описание
+            price: 550, //Цена
+            category_id: 1;4;13,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 28,
+            name: "Сциндапсус", //Название
+            description: "", //Описание
+            price: 200, //Цена
+            category_id: 1;6;9;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 29,
+            name: "Диффенбахия", //Название
+            description: "", //Описание
+            price: 450, //Цена
+            category_id: 2;5;7;14,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 30,
+            name: "Кактус", //Название
+            description: "", //Описание
+            price: 200, //Цена
+            category_id: 1;4;13,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 31,
+            name: "Суккуленты", //Название
+            description: "", //Описание
+            price: 200, //Цена
+            category_id: 1;4;13,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 32,
+            name: "Гибискус", //Название
+            description: "", //Описание
+            price: 300, //Цена
+            category_id: 3;4;10,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
+        {
+            id: 33,
+            name: "Мирт", //Название
+            description: "", //Описание
+            price: 500, //Цена
+            category_id: 3;4;8;10,
+            image_url: "/images/", //путь к картинке
+            stock_quantity: 50, //Кол-во на складе
+            is_available: true, //Доступен да(true)/нет(false)
+            created_at: new Date('2024-01-01')
+        },
     ],
     categories: [
-        { id: 1, name: "Roses", description: "Beautiful roses for every occasion" },
-        { id: 2, name: "Tulips", description: "Colorful tulips for spring" },
-        { id: 3, name: "Lilies", description: "Elegant lilies for special moments" },
-        { id: 4, name: "Seasonal", description: "Fresh seasonal selections" }
+        { id: 1, name: "Для начинающих", description: "" },
+        { id: 2, name: "Для опытных", description: "" },
+        { id: 3, name: "Капризные", description: "" },
+        { id: 4, name: "Яркий и рассеянный свет", description: "" },
+        { id: 5, name: "Полутень", description: "" },
+        { id: 6, name: "Тень", description: "" },
+        { id: 7, name: "Декоративно-лиственные", description: "" },
+        { id: 8, name: "Красивоцветущие", description: "" },
+        { id: 9, name: "Ампельные и лианы", description: "" },
+        { id: 10, name: "Деревья и кустарники", description: "" },
+        { id: 11, name: "Пальмовидные", description: "" },
+        { id: 12, name: "Розеточные", description: "" },
+        { id: 13, name: "Суккуленты", description: "" },
+        { id: 14, name: "Растения-очистители воздуха", description: "" },
+        { id: 15, name: "Тропиканы", description: "" },
     ]
 };
 
@@ -57,7 +409,7 @@ class Database {
         // Simulate database connection
         await new Promise(resolve => setTimeout(resolve, 100));
         this.isConnected = true;
-        console.log('📊 Database connected successfully');
+        console.log('📊  База данных успешно подключена');
         return this;
     }
 
@@ -69,7 +421,7 @@ class Database {
         // Simulate query execution
         await new Promise(resolve => setTimeout(resolve, 50));
         
-        console.log('📊 Executing query:', sql, params);
+        console.log('📊 Выполняющий запрос:', sql, params);
         
         // Mock query results based on SQL
         if (sql.includes('SELECT * FROM products')) {
