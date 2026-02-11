@@ -8,6 +8,71 @@
 
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/auth.css">
+    <style>
+        /* Дополнительные стили для гарантии */
+        .products-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+            gap: 2rem !important;
+            padding: 2rem 0 !important;
+        }
+        .product-card {
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
+        }
+        .product-image-wrapper {
+            position: relative !important;
+            width: 100% !important;
+            height: 250px !important;
+            overflow: hidden !important;
+            border-radius: 8px 8px 0 0 !important;
+        }
+        .product-image {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+        .difficulty-badge {
+            position: absolute !important;
+            top: 10px !important;
+            left: 10px !important;
+            padding: 6px 12px !important;
+            border-radius: 30px !important;
+            font-size: 0.8rem !important;
+            font-weight: 600 !important;
+            color: white !important;
+            z-index: 10 !important;
+        }
+        .difficulty-badge.beginner { background: #4caf50 !important; }
+        .difficulty-badge.expert { background: #ff9800 !important; }
+        .difficulty-badge.hard { background: #f44336 !important; }
+        .product-card.beginner { border-top: 4px solid #4caf50 !important; }
+        .product-card.expert { border-top: 4px solid #ff9800 !important; }
+        .product-card.hard { border-top: 4px solid #f44336 !important; }
+        .difficulty-filters {
+            display: flex !important;
+            gap: 0.5rem !important;
+            flex-wrap: wrap !important;
+            margin-top: 0.5rem !important;
+        }
+        .difficulty-filter-btn {
+            padding: 6px 12px !important;
+            border: 2px solid #ddd !important;
+            border-radius: 30px !important;
+            background: white !important;
+            cursor: pointer !important;
+            transition: all 0.3s !important;
+        }
+        .difficulty-filter-btn.active {
+            background: var(--primary-color) !important;
+            color: white !important;
+            border-color: var(--primary-color) !important;
+        }
+        .difficulty-filter-btn[data-level="beginner"].active { background: #4caf50 !important; border-color: #4caf50 !important; }
+        .difficulty-filter-btn[data-level="expert"].active { background: #ff9800 !important; border-color: #ff9800 !important; }
+        .difficulty-filter-btn[data-level="hard"].active { background: #f44336 !important; border-color: #f44336 !important; }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -158,12 +223,79 @@
         </div>
     </footer>
 
-    <!-- Scripts - ВАЖНО: добавлен products.js -->
+    <!-- Scripts - В ПРАВИЛЬНОМ ПОРЯДКЕ -->
     <script src="/js/auth.js"></script>
     <script src="/js/cart.js"></script>
     <script src="/js/products.js"></script>
     <script src="/js/main.js"></script>
 
+    <!-- Аварийный скрипт на случай, если products.js не сработает -->
+    <script>
+        (function emergencyLoader() {
+            console.log('🚨 Аварийный загрузчик запущен');
 
+            // Ждем 3 секунды и проверяем, загрузились ли товары
+            setTimeout(async () => {
+                const grid = document.getElementById('products-grid');
+                if (!grid) return;
+
+                // Если сетка все еще показывает спиннер - загружаем товары напрямую
+                if (grid.innerHTML.includes('loading-spinner')) {
+                    console.log('⚠️ Аварийная загрузка товаров');
+                    try {
+                        const response = await fetch('/api/products');
+                        const data = await response.json();
+
+                        if (data.success && data.data.length > 0) {
+                            grid.innerHTML = data.data.map(product => {
+                                let badgeClass = '', badgeText = '🌿 Обычный';
+                                if (product.category_id === 1) {
+                                    badgeClass = 'beginner';
+                                    badgeText = '🌱 Для начинающих';
+                                } else if (product.category_id === 2) {
+                                    badgeClass = 'expert';
+                                    badgeText = '🌟 Для опытных';
+                                } else if (product.category_id === 3) {
+                                    badgeClass = 'hard';
+                                    badgeText = '⚠️ Капризные';
+                                }
+
+                                return `
+                                    <div class="product-card ${badgeClass}">
+                                        <div class="product-image-wrapper">
+                                            <img src="${product.image_url || 'https://images.unsplash.com/photo-1463320898484-edde836c197b?w=400&h=400&fit=crop'}"
+                                                 alt="${product.name}"
+                                                 class="product-image"
+                                                 onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#667eea 0%,#764ba2 100%)'; this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:white;font-size:3rem;\'>🌸</div>';">
+                                            <span class="difficulty-badge ${badgeClass}">${badgeText}</span>
+                                        </div>
+                                        <div class="product-info">
+                                            <h3 class="product-name">${product.name}</h3>
+                                            <p class="product-description">${product.description || 'Красивое комнатное растение'}</p>
+                                            <div class="product-meta">
+                                                <span class="product-category">${product.category_name || 'Комнатное растение'}</span>
+                                            </div>
+                                            <div class="product-footer">
+                                                <span class="product-price">${product.price} ₽</span>
+                                                <button class="btn btn-primary add-to-cart"
+                                                        data-id="${product.id}"
+                                                        data-name="${product.name}"
+                                                        data-price="${product.price}">
+                                                    В корзину
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('');
+                            console.log('✅ Аварийная загрузка успешна');
+                        }
+                    } catch (e) {
+                        console.error('❌ Аварийная загрузка не удалась:', e);
+                    }
+                }
+            }, 3000);
+        })();
+    </script>
 </body>
 </html>
