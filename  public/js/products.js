@@ -174,59 +174,60 @@ class ProductManager {
     }
 
     renderProductsGrid(container) {
-    if (this.products.length === 0) {
-        container.innerHTML = `
-            <div class="no-products">
-                <h3>🌿 Товары не найдены</h3>
-                <p>Попробуйте изменить параметры поиска</p>
-            </div>
-        `;
-        return;
-    }
-
-    container.innerHTML = this.products.map(product => {
-        let difficultyClass = '';
-        let difficultyName = '🌿 Обычный';
-
-        if (product.category_id === 1) {
-            difficultyClass = 'beginner';
-            difficultyName = '🌱 Для начинающих';
-        } else if (product.category_id === 2) {
-            difficultyClass = 'expert';
-            difficultyName = '🌟 Для опытных';
-        } else if (product.category_id === 3) {
-            difficultyClass = 'hard';
-            difficultyName = '⚠️ Капризные';
+        if (this.products.length === 0) {
+            container.innerHTML = `
+                <div class="no-products">
+                    <h3>🌿 Товары не найдены</h3>
+                    <p>Попробуйте изменить параметры поиска</p>
+                </div>
+            `;
+            return;
         }
 
-        return `
-            <div class="product-card ${difficultyClass}">
-                <div class="product-image-wrapper">
-                    <div class="product-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 2rem;">
-                        🌸
+        container.innerHTML = this.products.map(product => {
+            let difficultyClass = '';
+            let difficultyName = '🌿 Обычный';
+
+            if (product.category_id === 1) {
+                difficultyClass = 'beginner';
+                difficultyName = '🌱 Для начинающих';
+            } else if (product.category_id === 2) {
+                difficultyClass = 'expert';
+                difficultyName = '🌟 Для опытных';
+            } else if (product.category_id === 3) {
+                difficultyClass = 'hard';
+                difficultyName = '⚠️ Капризные';
+            }
+
+            return `
+                <div class="product-card ${difficultyClass}">
+                    <div class="product-image-wrapper">
+                        <img src="${product.image_url || 'https://images.unsplash.com/photo-1463320898484-edde836c197b?w=400&h=400&fit=crop'}"
+                             alt="${product.name}"
+                             class="product-image"
+                             onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:white;font-size:3rem;\'>🌸</div>';">
+                        <span class="difficulty-badge ${difficultyClass}">${difficultyName}</span>
                     </div>
-                    <span class="difficulty-badge ${difficultyClass}">${difficultyName}</span>
+                    <div class="product-info">
+                        <h3 class="product-name">${this.escapeHtml(product.name)}</h3>
+                        <p class="product-description">${product.description || 'Красивое комнатное растение'}</p>
+                        <div class="product-meta">
+                            <span class="product-category">${product.category_name || 'Комнатное растение'}</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">${product.price} ₽</span>
+                            <button class="btn btn-primary add-to-cart"
+                                    data-id="${product.id}"
+                                    data-name="${this.escapeHtml(product.name)}"
+                                    data-price="${product.price}">
+                                В корзину
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <h3 class="product-name">${product.name}</h3>
-                    <p class="product-description">${product.description || 'Красивое комнатное растение'}</p>
-                    <div class="product-meta">
-                        <span class="product-category">${product.category_name || 'Комнатное растение'}</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">${product.price} ₽</span>
-                        <button class="btn btn-primary add-to-cart"
-                                data-id="${product.id}"
-                                data-name="${product.name}"
-                                data-price="${product.price}">
-                            В корзину
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
+            `;
+        }).join('');
+    }
 
     renderAdminProductsTable(container) {
         if (this.products.length === 0) {
@@ -257,7 +258,7 @@ class ProductManager {
                 <tr>
                     <td>${product.id}</td>
                     <td>
-                        <img src="${product.image_url && product.image_url !== '/images/' ? product.image_url : '/images/placeholder.jpg'}"
+                        <img src="${product.image_url || '/images/placeholder.jpg'}"
                              alt="${product.name}"
                              class="product-thumbnail"
                              onerror="this.src='/images/placeholder.jpg'">
