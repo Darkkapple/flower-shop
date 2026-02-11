@@ -163,5 +163,30 @@
     <script src="/js/cart.js"></script>
     <script src="/js/products.js"></script>
     <script src="/js/main.js"></script>
+    <script>
+        // Аварийный режим - загружаем товары напрямую
+        (async function() {
+            console.log('🚨 АВАРИЙНАЯ ЗАГРУЗКА ТОВАРОВ');
+
+            try {
+                const response = await fetch('/api/products');
+                const data = await response.json();
+
+                if (data.success && data.data.length > 0) {
+                    const grid = document.getElementById('products-grid');
+                    grid.innerHTML = data.data.map(product => `
+                        <div class="product-card">
+                            <h3>${product.name}</h3>
+                            <p>${product.price} ₽</p>
+                            <p>${product.category_name || 'Растение'}</p>
+                        </div>
+                    `).join('');
+                    console.log('✅ Аварийная загрузка успешна!');
+                }
+            } catch(e) {
+                console.error('❌ Аварийная загрузка провалилась:', e);
+            }
+        })();
+    </script>
 </body>
 </html>
