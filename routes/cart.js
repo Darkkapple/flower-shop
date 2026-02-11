@@ -6,24 +6,18 @@ const router = express.Router();
 // Get cart items
 router.get('/', requireAuth, async (req, res) => {
     try {
-        // In a real app, you might store cart in database
-        // For now, we'll use session storage for demo
         const cart = req.session.cart || [];
 
-        // If we have product IDs in cart, get product details
         if (cart.length > 0) {
-            const productIds = cart.map(item => item.productId);
-            const placeholders = productIds.map(() => '?').join(',');
-
-            const [products] = await db.execute(
-                `SELECT id, name, price, image_url, stock_quantity
-                 FROM products
-                 WHERE id IN (${placeholders}) AND is_available = true`,
-                productIds
-            );
+            // Получаем все продукты
+            const [allProducts] = await db.query(`
+                SELECT id, name, price, image_url, stock_quantity
+                FROM products
+                WHERE is_available = true
+            `);
 
             const cartWithDetails = cart.map(item => {
-                const product = products.find(p => p.id === item.productId);
+                const product = allProducts.find(p => p.id === item.productId);
                 return {
                     ...item,
                     product: product || null,
@@ -79,20 +73,20 @@ router.post('/add', requireAuth, async (req, res) => {
             });
         }
 
-        // Verify product exists and is available
-        const [products] = await db.execute(
+        // Получаем продукт
+        const [products] = await db.query(
             'SELECT id, name, price, stock_quantity FROM products WHERE id = ? AND is_available = true',
             [productId]
         );
 
-        if (products.length === 0) {
+        const product = products[0];
+
+        if (!product) {
             return res.status(404).json({
                 success: false,
                 error: 'Product not found'
             });
         }
-
-        const product = products[0];
 
         if (product.stock_quantity < quantity) {
             return res.status(400).json({
@@ -101,16 +95,13 @@ router.post('/add', requireAuth, async (req, res) => {
             });
         }
 
-        // Initialize cart if not exists
         if (!req.session.cart) {
             req.session.cart = [];
         }
 
-        // Check if product already in cart
-        const existingItemIndex = req.session.cart.findIndex(item => item.productId === productId);
+        const existingItemIndex = req.session.cart.findIndex(item => item.productId === parseInt(productId));
 
         if (existingItemIndex > -1) {
-            // Update quantity
             const newQuantity = req.session.cart[existingItemIndex].quantity + quantity;
 
             if (newQuantity > product.stock_quantity) {
@@ -122,19 +113,20 @@ router.post('/add', requireAuth, async (req, res) => {
 
             req.session.cart[existingItemIndex].quantity = newQuantity;
         } else {
-            // Add new item
             req.session.cart.push({
-                productId,
+                productId: parseInt(productId),
                 quantity,
                 addedAt: new Date().toISOString()
             });
         }
 
+        const cartItemCount = req.session.cart.reduce((sum, item) => sum + item.quantity, 0);
+
         res.json({
             success: true,
             message: 'Product added to cart',
             data: {
-                cartItemCount: req.session.cart.reduce((sum, item) => sum + item.quantity, 0)
+                cartItemCount
             }
         });
 
@@ -161,30 +153,29 @@ router.put('/update/:productId', requireAuth, async (req, res) => {
         }
 
         if (quantity === 0) {
-            // Remove item if quantity is 0
             req.session.cart = req.session.cart.filter(item => item.productId !== parseInt(productId));
         } else {
-            // Check stock
-            const [products] = await db.execute(
+            const [products] = await db.query(
                 'SELECT stock_quantity FROM products WHERE id = ?',
                 [productId]
             );
 
-            if (products.length === 0) {
+            const product = products[0];
+
+            if (!product) {
                 return res.status(404).json({
                     success: false,
                     error: 'Product not found'
                 });
             }
 
-            if (quantity > products[0].stock_quantity) {
+            if (quantity > product.stock_quantity) {
                 return res.status(400).json({
                     success: false,
                     error: 'Insufficient stock'
                 });
             }
 
-            // Update quantity
             const itemIndex = req.session.cart.findIndex(item => item.productId === parseInt(productId));
 
             if (itemIndex > -1) {

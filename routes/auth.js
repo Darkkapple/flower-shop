@@ -12,7 +12,7 @@ router.post('/login', async (req, res) => {
     }
 
     try {
-        const [users] = await db.execute(
+        const [users] = await db.query(
             'SELECT * FROM users WHERE username = ?',
             [username]
         );

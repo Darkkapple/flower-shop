@@ -64,43 +64,39 @@
                     <h3>Категория</h3>
                     <select id="category-filter" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                         <option value="">Все категории</option>
-                        <option value="for_beginners">Для начинающих</option>
-                        <option value="for_the_experienced">Для опытных</option>
-                        <option value="moody">Капризные</option>
-                        <option value="bright_and_diffused_light">Яркий и рассеянный свет</option>
-                        <option value="partial_shade">Полутень</option>
-                        <option value="shadow">Тень</option>
-                        <option value="decorative_and_deciduous">Декоративно-лиственные</option>
-                        <option value="beautifully_blooming">Красивоцветущие</option>
-                        <option value="ampellae_and_creepers">Ампельные и лианы</option>
-                        <option value="trees_and_shrubs">Деревья и кустарники</option>
-                        <option value="palm_shaped">Пальмовидные</option>
-                        <option value="sockets">Розеточные</option>
-                        <option value="succulents">Суккуленты</option>
-                        <option value="plants_are_air_purifiers">Растения-очистители воздуха</option>
-                        <option value="tropical_that_love_humidity">Тропиканы</option>
                     </select>
                 </div>
 
                 <div class="feature-card" style="text-align: left;">
+                    <h3>Уровень сложности</h3>
+                    <div class="difficulty-filters">
+                        <button class="difficulty-filter-btn active" data-level="">Все уровни</button>
+                        <button class="difficulty-filter-btn" data-level="beginner">🌱 Для начинающих</button>
+                        <button class="difficulty-filter-btn" data-level="expert">🌟 Для опытных</button>
+                        <button class="difficulty-filter-btn" data-level="hard">⚠️ Капризные</button>
+                    </div>
+                </div>
+
+                <div class="feature-card" style="text-align: left;">
                     <h3>Ценовой диапазон</h3>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="number" id="min-price" placeholder="Мин" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <input type="number" id="min-price-filter" placeholder="Мин" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                     </div>
                     <div style="display: flex; gap: 0.5rem;">
-                        <input type="number" id="max-price" placeholder="Макс" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        <input type="number" id="max-price-filter" placeholder="Макс" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
                     </div>
                 </div>
 
                 <div class="feature-card" style="text-align: left;">
                     <h3>Фильтры</h3>
                     <label style="display: flex; align-items: center; gap: 0.5rem;">
-                        <input type="checkbox" id="in-stock-only">
+                        <input type="checkbox" id="in-stock-filter">
                         Только в наличии
                     </label>
-                    <button id="clear-filters" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;">Сбросить фильтры</button>
+                    <button id="clear-filters" class="btn btn-outline" style="width: 100%; margin-top: 1rem;">Сбросить фильтры</button>
                 </div>
             </div>
+            <div id="products-count" class="products-count" style="margin-top: 1rem;"></div>
         </div>
     </section>
 
@@ -113,16 +109,13 @@
             </div>
 
             <div id="products-grid" class="products-grid">
-                <!-- Products loaded by JavaScript -->
                 <div class="loading-spinner"></div>
-            </div>
-
-            <!-- Load More Button -->
-            <div style="text-align: center; margin-top: 3rem;">
-                <button id="load-more" class="btn btn-primary">Загрузить еще</button>
             </div>
         </div>
     </section>
+
+<!-- Удалите кнопку "Загрузить еще" и скрипт внутри catalog.html, так как products.js теперь управляет всем -->
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -167,178 +160,5 @@
             </div>
         </div>
     </footer>
-
-    <!-- Scripts -->
-    <script src="/js/auth.js"></script>
-    <script src="/js/cart.js"></script>
-    <script src="/js/main.js"></script>
-
-    <script>
-        // Catalog page functionality
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log('Catalog page loaded');
-
-            let allProducts = [];
-            let displayedProducts = [];
-            const productsPerPage = 8;
-
-            // Load products
-            try {
-                const response = await fetch('/api/products');
-                const data = await response.json();
-
-                if (data.success) {
-                    allProducts = data.data;
-                    displayedProducts = allProducts.slice(0, productsPerPage);
-                    renderProducts(displayedProducts);
-
-                    // Setup load more button
-                    const loadMoreBtn = document.getElementById('load-more');
-                    if (loadMoreBtn) {
-                        loadMoreBtn.addEventListener('click', loadMoreProducts);
-                    }
-
-                    // Setup filters
-                    setupFilters();
-                }
-            } catch (error) {
-                console.error('Error loading products:', error);
-                document.getElementById('products-grid').innerHTML = '<p>Ошибка загрузки товаров. Пожалуйста, попробуйте позже.</p>';
-            }
-
-            function renderProducts(products) {
-                const grid = document.getElementById('products-grid');
-                if (!grid) return;
-
-                if (products.length === 0) {
-                    grid.innerHTML = '<p>Товары по вашему запросу не найдены.</p>';
-                    return;
-                }
-
-                grid.innerHTML = products.map(product => `
-                    <div class="product-card">
-                        <div class="product-image">
-                            ${product.image_url ?
-                                `<img src="${product.image_url}" alt="${product.name}" onerror="this.style.display='none'">` :
-                                '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);">🌸</div>'
-                            }
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-description">${product.description}</p>
-                            <div class="product-meta">
-                                <span class="product-category">${product.category_name}</span>
-                                <span class="product-stock ${product.stock_quantity > 0 ? 'in-stock' : 'out-of-stock'}">
-                                    ${product.stock_quantity > 0 ? 'В наличии' : 'Нет в наличии'}
-                                </span>
-                            </div>
-                            <div class="product-footer">
-                                <span class="product-price">${product.price} ₽</span>
-                                <button class="btn btn-primary add-to-cart"
-                                        data-id="${product.id}"
-                                        data-name="${product.name}"
-                                        data-price="${product.price}"
-                                        ${product.stock_quantity === 0 ? 'disabled' : ''}>
-                                    ${product.stock_quantity === 0 ? 'Нет в наличии' : 'В корзину'}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            function loadMoreProducts() {
-                const currentCount = displayedProducts.length;
-                const nextProducts = allProducts.slice(currentCount, currentCount + productsPerPage);
-
-                if (nextProducts.length === 0) {
-                    document.getElementById('load-more').style.display = 'none';
-                    return;
-                }
-
-                displayedProducts = [...displayedProducts, ...nextProducts];
-                renderProducts(displayedProducts);
-
-                if (displayedProducts.length >= allProducts.length) {
-                    document.getElementById('load-more').style.display = 'none';
-                }
-            }
-
-            function setupFilters() {
-                const searchInput = document.getElementById('search-input');
-                const categoryFilter = document.getElementById('category-filter');
-                const minPrice = document.getElementById('min-price');
-                const maxPrice = document.getElementById('max-price');
-                const inStockOnly = document.getElementById('in-stock-only');
-                const clearFilters = document.getElementById('clear-filters');
-
-                function applyFilters() {
-                    let filtered = allProducts;
-
-                    // Search filter
-                    if (searchInput.value) {
-                        filtered = filtered.filter(product =>
-                            product.name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-                            product.description.toLowerCase().includes(searchInput.value.toLowerCase())
-                        );
-                    }
-
-                    // Category filter
-                    if (categoryFilter.value) {
-                        filtered = filtered.filter(product =>
-                            product.category_name === categoryFilter.value
-                        );
-                    }
-
-                    // Price filter
-                    if (minPrice.value) {
-                        filtered = filtered.filter(product =>
-                            product.price >= parseFloat(minPrice.value)
-                        );
-                    }
-
-                    if (maxPrice.value) {
-                        filtered = filtered.filter(product =>
-                            product.price <= parseFloat(maxPrice.value)
-                        );
-                    }
-
-                    // Stock filter
-                    if (inStockOnly.checked) {
-                        filtered = filtered.filter(product =>
-                            product.stock_quantity > 0
-                        );
-                    }
-
-                    displayedProducts = filtered.slice(0, productsPerPage);
-                    renderProducts(displayedProducts);
-
-                    // Show/hide load more button
-                    const loadMoreBtn = document.getElementById('load-more');
-                    if (loadMoreBtn) {
-                        loadMoreBtn.style.display = filtered.length > productsPerPage ? 'block' : 'none';
-                    }
-                }
-
-                // Event listeners
-                if (searchInput) searchInput.addEventListener('input', applyFilters);
-                if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
-                if (minPrice) minPrice.addEventListener('change', applyFilters);
-                if (maxPrice) maxPrice.addEventListener('change', applyFilters);
-                if (inStockOnly) inStockOnly.addEventListener('change', applyFilters);
-
-                if (clearFilters) {
-                    clearFilters.addEventListener('click', () => {
-                        searchInput.value = '';
-                        categoryFilter.value = '';
-                        minPrice.value = '';
-                        maxPrice.value = '';
-                        inStockOnly.checked = false;
-                        applyFilters();
-                    });
-                }
-            }
-        });
-    </script>
 </body>
 </html>

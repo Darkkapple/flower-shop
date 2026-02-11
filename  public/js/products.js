@@ -7,7 +7,8 @@ class ProductManager {
             category: '',
             minPrice: '',
             maxPrice: '',
-            inStock: false
+            inStock: false,
+            difficulty: ''
         };
         this.currentPage = 1;
         this.productsPerPage = 12;
@@ -18,11 +19,9 @@ class ProductManager {
         await this.loadCategories();
         await this.loadProducts();
         this.bindEvents();
-        this.renderProducts();
     }
 
     bindEvents() {
-        // Search functionality
         const searchInput = document.getElementById('search-input');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
@@ -31,16 +30,39 @@ class ProductManager {
             });
         }
 
-        // Category filter
         const categoryFilter = document.getElementById('category-filter');
         if (categoryFilter) {
             categoryFilter.addEventListener('change', (e) => {
                 this.filters.category = e.target.value;
+                this.filters.difficulty = '';
+                document.querySelectorAll('.difficulty-filter-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                const allBtn = document.querySelector('.difficulty-filter-btn[data-level=""]');
+                if (allBtn) allBtn.classList.add('active');
                 this.loadProducts();
             });
         }
 
-        // Price filters
+        document.querySelectorAll('.difficulty-filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const difficulty = e.target.dataset.level;
+
+                document.querySelectorAll('.difficulty-filter-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                e.target.classList.add('active');
+
+                this.filters.difficulty = difficulty;
+                this.filters.category = '';
+
+                const categoryFilter = document.getElementById('category-filter');
+                if (categoryFilter) categoryFilter.value = '';
+
+                this.loadProducts();
+            });
+        });
+
         const minPriceFilter = document.getElementById('min-price-filter');
         const maxPriceFilter = document.getElementById('max-price-filter');
 
@@ -58,7 +80,6 @@ class ProductManager {
             });
         }
 
-        // Stock filter
         const inStockFilter = document.getElementById('in-stock-filter');
         if (inStockFilter) {
             inStockFilter.addEventListener('change', (e) => {
@@ -67,7 +88,6 @@ class ProductManager {
             });
         }
 
-        // Clear filters
         const clearFiltersBtn = document.getElementById('clear-filters');
         if (clearFiltersBtn) {
             clearFiltersBtn.addEventListener('click', () => {
@@ -75,7 +95,6 @@ class ProductManager {
             });
         }
 
-        // Admin product management
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('edit-product')) {
                 this.editProduct(e.target.dataset.id);
@@ -86,7 +105,6 @@ class ProductManager {
             }
         });
 
-        // Product form submission
         const productForm = document.getElementById('product-form');
         if (productForm) {
             productForm.addEventListener('submit', (e) => this.handleProductFormSubmit(e));
@@ -106,6 +124,7 @@ class ProductManager {
 
             if (this.filters.search) queryParams.append('search', this.filters.search);
             if (this.filters.category) queryParams.append('category', this.filters.category);
+            if (this.filters.difficulty) queryParams.append('difficulty', this.filters.difficulty);
             if (this.filters.minPrice) queryParams.append('minPrice', this.filters.minPrice);
             if (this.filters.maxPrice) queryParams.append('maxPrice', this.filters.maxPrice);
             if (this.filters.inStock) queryParams.append('inStock', 'true');
@@ -116,11 +135,14 @@ class ProductManager {
             if (data.success) {
                 this.products = data.data;
                 this.renderProducts();
+                this.updateProductCount();
             } else {
                 console.error('Failed to load products:', data.error);
+                this.showNotification('Ошибка загрузки товаров', 'error');
             }
         } catch (error) {
             console.error('Load products error:', error);
+            this.showNotification('Ошибка загрузки товаров', 'error');
         }
     }
 
@@ -155,81 +177,126 @@ class ProductManager {
         if (this.products.length === 0) {
             container.innerHTML = `
                 <div class="no-products">
-                    <h3>No products found</h3>
-                    <p>Try adjusting your search filters</p>
+                    <h3>🌿 Товары не найдены</h3>
+                    <p>Попробуйте изменить параметры поиска</p>
                 </div>
             `;
             return;
         }
 
-        container.innerHTML = this.products.map(product => `
-            <div class="product-card" data-product-id="${product.id}">
-                <img src="${product.image_url || '/images/placeholder.jpg'}"
-                     alt="${product.name}"
-                     class="product-image"
-                     onerror="this.src='/images/placeholder.jpg'">
-                <div class="product-info">
-                    <h3 class="product-name">${product.name}</h3>
-                    <p class="product-description">${product.description || 'No description available'}</p>
-                    <div class="product-meta">
-                        <span class="product-category">${product.category_name}</span>
-                        <span class="product-stock ${product.stock_quantity > 0 ? 'in-stock' : 'out-of-stock'}">
-                            ${product.stock_quantity > 0 ? `${product.stock_quantity} in stock` : 'Out of stock'}
-                        </span>
+        container.innerHTML = this.products.map(product => {
+            // Определяем сложность на основе category_id
+            let difficultyClass = '';
+            let difficultyName = '🌿 Обычный';
+
+            if (product.category_id === 1) {
+                difficultyClass = 'beginner';
+                difficultyName = '🌱 Для начинающих';
+            } else if (product.category_id === 2) {
+                difficultyClass = 'expert';
+                difficultyName = '🌟 Для опытных';
+            } else if (product.category_id === 3) {
+                difficultyClass = 'hard';
+                difficultyName = '⚠️ Капризные';
+            }
+
+            return `
+                <div class="product-card ${difficultyClass}" data-product-id="${product.id}">
+                    <div class="product-image-wrapper">
+                        <img src="${product.image_url && product.image_url !== '/images/' ? product.image_url : '/images/placeholder.jpg'}"
+                             alt="${product.name}"
+                             class="product-image"
+                             onerror="this.src='/images/placeholder.jpg'">
+                        ${difficultyClass ? `
+                            <span class="difficulty-badge ${difficultyClass}">
+                                ${difficultyName}
+                            </span>
+                        ` : ''}
                     </div>
-                    <div class="product-footer">
-                        <span class="product-price">$${product.price}</span>
-                        <button class="btn btn-primary add-to-cart"
-                                data-id="${product.id}"
-                                data-name="${product.name}"
-                                data-price="${product.price}"
-                                ${product.stock_quantity === 0 ? 'disabled' : ''}>
-                            ${product.stock_quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
-                        </button>
+                    <div class="product-info">
+                        <h3 class="product-name">${this.escapeHtml(product.name)}</h3>
+                        <p class="product-description">${product.description || 'Красивое комнатное растение'}</p>
+                        <div class="product-meta">
+                            <span class="product-category">${product.category_name || 'Комнатное растение'}</span>
+                            <span class="product-stock ${product.stock_quantity > 0 ? 'in-stock' : 'out-of-stock'}">
+                                ${product.stock_quantity > 0 ? `✅ В наличии (${product.stock_quantity} шт.)` : '❌ Нет в наличии'}
+                            </span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">${product.price} ₽</span>
+                            <button class="btn btn-primary add-to-cart"
+                                    data-id="${product.id}"
+                                    data-name="${this.escapeHtml(product.name)}"
+                                    data-price="${product.price}"
+                                    ${product.stock_quantity === 0 ? 'disabled' : ''}>
+                                ${product.stock_quantity === 0 ? 'Нет в наличии' : 'В корзину'}
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     renderAdminProductsTable(container) {
         if (this.products.length === 0) {
             container.innerHTML = `
                 <tr>
-                    <td colspan="7" class="text-center">No products found</td>
+                    <td colspan="8" class="text-center">Товары не найдены</td>
                 </tr>
             `;
             return;
         }
 
-        container.innerHTML = this.products.map(product => `
-            <tr>
-                <td>${product.id}</td>
-                <td>
-                    <img src="${product.image_url || '/images/placeholder.jpg'}"
-                         alt="${product.name}"
-                         class="product-thumbnail"
-                         onerror="this.src='/images/placeholder.jpg'">
-                </td>
-                <td>${product.name}</td>
-                <td>${product.category_name}</td>
-                <td>$${product.price}</td>
-                <td>${product.stock_quantity}</td>
-                <td>
-                    <span class="badge ${product.is_available ? 'badge-success' : 'badge-danger'}">
-                        ${product.is_available ? 'Available' : 'Unavailable'}
-                    </span>
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-outline edit-product" data-id="${product.id}">
-                        Edit
-                    </button>
-                    <button class="btn btn-sm btn-danger delete-product" data-id="${product.id}">
-                        Delete
-                    </button>
-                </td>
-            </tr>
-        `).join('');
+        container.innerHTML = this.products.map(product => {
+            let difficultyClass = '';
+            let difficultyName = '🌿 Обычный';
+
+            if (product.category_id === 1) {
+                difficultyClass = 'beginner';
+                difficultyName = '🌱 Для начинающих';
+            } else if (product.category_id === 2) {
+                difficultyClass = 'expert';
+                difficultyName = '🌟 Для опытных';
+            } else if (product.category_id === 3) {
+                difficultyClass = 'hard';
+                difficultyName = '⚠️ Капризные';
+            }
+
+            return `
+                <tr>
+                    <td>${product.id}</td>
+                    <td>
+                        <img src="${product.image_url && product.image_url !== '/images/' ? product.image_url : '/images/placeholder.jpg'}"
+                             alt="${product.name}"
+                             class="product-thumbnail"
+                             onerror="this.src='/images/placeholder.jpg'">
+                    </td>
+                    <td>${this.escapeHtml(product.name)}</td>
+                    <td>${product.category_name || '—'}</td>
+                    <td>${product.price} ₽</td>
+                    <td>
+                        <span class="difficulty-badge-small ${difficultyClass}">
+                            ${difficultyName}
+                        </span>
+                    </td>
+                    <td>${product.stock_quantity}</td>
+                    <td>
+                        <span class="badge ${product.is_available ? 'badge-success' : 'badge-danger'}">
+                            ${product.is_available ? 'Активен' : 'Неактивен'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline edit-product" data-id="${product.id}">
+                            ✏️
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-product" data-id="${product.id}">
+                            🗑️
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
     }
 
     renderCategoryFilters() {
@@ -238,9 +305,9 @@ class ProductManager {
 
         if (categoryFilter) {
             categoryFilter.innerHTML = `
-                <option value="">All Categories</option>
+                <option value="">Все категории</option>
                 ${this.categories.map(cat => `
-                    <option value="${cat.name}">${cat.name}</option>
+                    <option value="${cat.slug || cat.name}">${cat.name}</option>
                 `).join('')}
             `;
         }
@@ -252,21 +319,34 @@ class ProductManager {
         }
     }
 
+    updateProductCount() {
+        const countElement = document.getElementById('products-count');
+        if (countElement) {
+            countElement.textContent = `Найдено: ${this.products.length} товаров`;
+        }
+    }
+
     clearFilters() {
         this.filters = {
             search: '',
             category: '',
             minPrice: '',
             maxPrice: '',
-            inStock: false
+            inStock: false,
+            difficulty: ''
         };
 
-        // Reset form elements
         const searchInput = document.getElementById('search-input');
         const categoryFilter = document.getElementById('category-filter');
         const minPriceFilter = document.getElementById('min-price-filter');
         const maxPriceFilter = document.getElementById('max-price-filter');
         const inStockFilter = document.getElementById('in-stock-filter');
+
+        document.querySelectorAll('.difficulty-filter-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        const allBtn = document.querySelector('.difficulty-filter-btn[data-level=""]');
+        if (allBtn) allBtn.classList.add('active');
 
         if (searchInput) searchInput.value = '';
         if (categoryFilter) categoryFilter.value = '';
@@ -285,16 +365,16 @@ class ProductManager {
             if (data.success) {
                 this.showProductForm(data.data);
             } else {
-                this.showNotification('Failed to load product', 'error');
+                this.showNotification('Не удалось загрузить товар', 'error');
             }
         } catch (error) {
             console.error('Edit product error:', error);
-            this.showNotification('Failed to load product', 'error');
+            this.showNotification('Ошибка загрузки товара', 'error');
         }
     }
 
     async deleteProduct(productId) {
-        if (!confirm('Are you sure you want to delete this product?')) {
+        if (!confirm('Вы уверены, что хотите удалить этот товар?')) {
             return;
         }
 
@@ -306,14 +386,14 @@ class ProductManager {
             const data = await response.json();
 
             if (data.success) {
-                this.showNotification('Product deleted successfully', 'success');
+                this.showNotification('Товар успешно удален', 'success');
                 this.loadProducts();
             } else {
-                this.showNotification(data.error, 'error');
+                this.showNotification(data.error || 'Ошибка удаления', 'error');
             }
         } catch (error) {
             console.error('Delete product error:', error);
-            this.showNotification('Failed to delete product', 'error');
+            this.showNotification('Ошибка удаления товара', 'error');
         }
     }
 
@@ -327,14 +407,13 @@ class ProductManager {
         const productId = document.getElementById('product-id');
 
         if (formTitle) {
-            formTitle.textContent = product ? 'Edit Product' : 'Add New Product';
+            formTitle.textContent = product ? 'Редактировать товар' : 'Добавить товар';
         }
 
         if (productId) {
             productId.value = product ? product.id : '';
         }
 
-        // Fill form with product data if editing
         if (product) {
             document.getElementById('product-name').value = product.name;
             document.getElementById('product-description').value = product.description || '';
@@ -347,9 +426,10 @@ class ProductManager {
             form.reset();
         }
 
-        // Show modal (you would need a modal component)
-        const modal = new bootstrap.Modal(document.getElementById('product-modal'));
-        modal.show();
+        const modal = document.getElementById('product-modal');
+        if (modal) {
+            modal.style.display = 'block';
+        }
     }
 
     async handleProductFormSubmit(e) {
@@ -385,34 +465,48 @@ class ProductManager {
 
             if (data.success) {
                 this.showNotification(
-                    `Product ${isEdit ? 'updated' : 'created'} successfully`,
+                    `Товар успешно ${isEdit ? 'обновлен' : 'создан'}`,
                     'success'
                 );
 
-                // Close modal and refresh products
-                const modal = bootstrap.Modal.getInstance(document.getElementById('product-modal'));
-                modal.hide();
+                const modal = document.getElementById('product-modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
 
                 this.loadProducts();
             } else {
-                this.showNotification(data.error, 'error');
+                this.showNotification(data.error || 'Ошибка сохранения', 'error');
             }
         } catch (error) {
             console.error('Save product error:', error);
-            this.showNotification('Failed to save product', 'error');
+            this.showNotification('Ошибка сохранения товара', 'error');
         }
     }
 
     showNotification(message, type = 'info') {
-        if (window.authManager) {
-            window.authManager.showNotification(message, type);
-        } else {
-            alert(message);
-        }
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    escapeHtml(unsafe) {
+        if (typeof unsafe !== 'string') return unsafe;
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 }
 
-// Initialize product manager when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.productManager = new ProductManager();
 });
